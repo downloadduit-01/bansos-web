@@ -73,12 +73,6 @@
 					
 					<p class="card-desc text-pretty">{item.description}</p>
 					
-					<!-- Warning banner -->
-					<div class="promo-important-banner flex-banner">
-						<span class="banner-alert-icon">⚠️</span>
-						<p>Khusus domain <strong>.DEV</strong> & <strong>.APP</strong>!</p>
-					</div>
-
 					<div class="card-actions">
 						<a href="/list/{item.id}" class="btn-primary" onclick={(e) => spawnEmoji(e, '🚀')}>
 							Lihat Cara Klaim Lengkap 🔎
@@ -240,27 +234,6 @@
 
 	.card-actions .btn-primary {
 		width: 100%;
-	}
-
-	/* Warning banner modifications for compact listing */
-	.flex-banner {
-		background: rgba(244, 63, 94, 0.08);
-		border: 1px solid rgba(244, 63, 94, 0.4);
-		border-radius: 0.5rem;
-		padding: 0.75rem 1rem;
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-	}
-
-	.flex-banner p {
-		margin: 0;
-		font-size: 0.9rem;
-		color: #fda4af;
-	}
-
-	.banner-alert-icon {
-		animation: pulse 1.5s infinite alternate;
 	}
 
 	.inline-anxious {

@@ -130,12 +130,6 @@
 				{/if}
 			</header>
 
-			<!-- Large Warning Banner for DEV & APP only -->
-			<div class="promo-important-banner">
-				<span class="banner-alert-icon">⚠️</span>
-				<p><strong>PENTING:</strong> Promo ini <u>HANYA</u> berlaku untuk registrasi domain <strong>.DEV</strong> dan <strong>.APP</strong> saja!</p>
-			</div>
-
 			<section class="section-block">
 				<h2>🤔 Apa ini?</h2>
 				<p class="description-text text-pretty">{item.description}</p>
@@ -527,36 +521,6 @@
 		font-size: 2.5rem;
 		animation: float-up-fade 0.8s forwards cubic-bezier(0.1, 0.8, 0.3, 1);
 		transform: translate(-50%, -50%);
-	}
-
-	/* Large Promo Highlight Banner */
-	.promo-important-banner {
-		background: rgba(244, 63, 94, 0.1);
-		border: 2px solid #f43f5e;
-		box-shadow: 0 0 15px rgba(244, 63, 94, 0.15);
-		border-radius: 0.75rem;
-		padding: 1.25rem;
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-		margin-block: 0.5rem;
-	}
-
-	.banner-alert-icon {
-		font-size: 2rem;
-		animation: pulse 1.5s infinite alternate;
-	}
-
-	.promo-important-banner p {
-		font-size: clamp(0.95rem, 0.9rem + 0.2vw, 1.15rem);
-		font-weight: 500;
-		color: #fda4af;
-		line-height: 1.4;
-		margin: 0;
-	}
-
-	.promo-important-banner p strong {
-		color: #ffe4e6;
 	}
 
 	@keyframes pulse {

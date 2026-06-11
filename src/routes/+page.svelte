@@ -77,13 +77,13 @@
 			<strong>100% Gratisan, No Clickbait, No Ribet.</strong>
 		</p>
 
-		<!-- Highlight Bansos Pertama -->
+		<!-- Highlight Bansos Terbaru -->
 		<div class="highlight-container">
-			<a href="/list/namecom-domain-app" class="highlight-card glass-card" onclick={(e) => spawnEmoji(e, '💸')}>
+			<a href="/list/tokenrouter-model-gateway" class="highlight-card glass-card" onclick={(e) => spawnEmoji(e, '💸')}>
 				<div class="highlight-header">
 					<span class="highlight-tag">🔥 BANSOS TERBARU</span>
 				</div>
-				<h3 class="highlight-title">Promo Domain .DEV & .APP Gratis dari Name.com!</h3>
+				<h3 class="highlight-title">Free Credits TokenRouter buat Jajan Model AI!</h3>
 				<span class="highlight-cta">Lihat Cara Klaim Selengkapnya →</span>
 			</a>
 		</div>
