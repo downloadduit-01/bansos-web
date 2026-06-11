@@ -113,6 +113,42 @@ export const bansosList: BansosItem[] = [
 		featured: true,
 		status: 'active'
 	}
+	,
+	{
+		id: 'inceptionlabs-get-started',
+		title: '10M Free Token Inception Platform',
+		provider: 'Inception',
+		description: 'Buat akun Inception Platform, dapetin bonus 10 juta token gratis buat ngoprek Mercury 2 API tanpa bayar dulu, biar bisa langsung test AI API integration kamu.',
+		benefits: [
+			'Bonus 10.000.000 token gratis untuk user baru',
+			'API key langsung bisa dipakai setelah daftar',
+			'OpenAI-compatible API endpoint https://api.inceptionlabs.ai/v1',
+			'Model Mercury 2 bisa dipakai dari request chat',
+			'Kompatibel dengan client library populer (AISuite, LiteLLM, LangChain, OpenAI Client, VercelAI)'
+		],
+		validity: 'Bonus berlaku untuk akun baru saat registrasi (10M token saldo awal)',
+		requirements: [
+			'Buat akun Inception Platform',
+			'Buat API key di halaman API Keys',
+			'Gunakan Authorization header dengan INCEPTION_API_KEY',
+			'Akses endpoint https://api.inceptionlabs.ai/v1',
+			'Isi data sesuai kebutuhan API docs',
+			'Tambahkan billing jika butuh lanjut setelah kuota habis'
+		],
+		contributor: {
+			name: 'wauputra',
+			url: 'https://wau.my.id/'
+		},
+		ctaLink: 'https://docs.inceptionlabs.ai/get-started/get-started',
+		tags: [
+			'AI Credits',
+			'OpenAI Compatible',
+			'API',
+			'Free Tier'
+		],
+		featured: false,
+		status: 'active'
+	}
 ];
 
 export const latestBansos = (limit = 3) => bansosList.slice(-limit).reverse();
