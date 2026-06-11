@@ -4,7 +4,7 @@
 	"description": "CLI untuk submit dan menambahkan daftar bansos.dev.",
 	"type": "module",
 	"bin": {
-		"bansosdev": "./bin/bansosdev.mjs"
+		"bansosdev": "bin/bansosdev.mjs"
 	},
 	"files": [
 		"bin",

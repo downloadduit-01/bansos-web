@@ -47,12 +47,14 @@ Token GitHub perlu permission untuk menjalankan workflow pada repo `wauputr4/ban
 2. Buka GitHub repo `Settings` -> `Actions` -> `General`.
 3. Pada `Workflow permissions`, pilih `Read and write permissions`.
 4. Simpan pengaturan.
-5. Untuk publish npm, buat package `bansosdev` di npm atau pastikan nama package tersedia.
-6. Di npm package settings, buka `Trusted Publisher`.
-7. Pilih `GitHub Actions`.
-8. Isi repository `wauputr4/bansos`.
-9. Isi workflow filename `.github/workflows/publish-cli.yml`.
-10. Publish manual pertama bisa lewat workflow `Publish CLI` di tab Actions.
+5. Untuk package baru, publish versi pertama secara manual dulu karena npm Trusted Publisher baru bisa diatur dari package settings setelah package ada.
+6. Jalankan `npm publish --workspace packages/bansosdev-cli --access public --otp KODE_OTP`.
+7. Setelah package `bansosdev` muncul di npm, buka `https://www.npmjs.com/package/bansosdev/access`.
+8. Di npm package settings, buka `Trusted Publisher`.
+9. Pilih `GitHub Actions`.
+10. Isi repository `wauputr4/bansos`.
+11. Isi workflow filename `publish-cli.yml`.
+12. Publish berikutnya bisa lewat workflow `Publish CLI` di tab Actions.
 
 Rujukan:
 
