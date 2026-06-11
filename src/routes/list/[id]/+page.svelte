@@ -120,6 +120,14 @@
 				</div>
 				<h1 class="detail-title text-gradient text-pretty">{item.title}</h1>
 				<p class="detail-subtitle">Disponsori oleh <strong>{item.provider}</strong> — Diterbitkan pada Juni 2026</p>
+				{#if item.contributor}
+					<p class="detail-contributor">
+						Dikontribusikan oleh
+						<a href={item.contributor.url} target="_blank" rel="noopener noreferrer">
+							{item.contributor.name}
+						</a>
+					</p>
+				{/if}
 			</header>
 
 			<!-- Large Warning Banner for DEV & APP only -->
@@ -322,6 +330,16 @@
 	.detail-subtitle {
 		font-size: 0.95rem;
 		color: var(--text-secondary);
+	}
+
+	.detail-contributor {
+		font-size: 0.9rem;
+		color: var(--text-muted);
+	}
+
+	.detail-contributor a {
+		color: var(--color-accent);
+		font-weight: 700;
 	}
 
 	.section-block {

@@ -9,6 +9,10 @@ export interface BansosItem {
 	validity: string;
 	requirements: string[];
 	tips?: string;
+	contributor?: {
+		name: string;
+		url: string;
+	};
 	ctaLink: string;
 	tags: string[];
 	featured: boolean;
@@ -35,6 +39,10 @@ export const bansosList: BansosItem[] = [
 			'Gunakan promo code pas checkout'
 		],
 		tips: 'Cuma bisa 1 akun per orang! Jangan coba-coba tuyul akun ya dek ya, biar berkah dan websitenya awet.',
+		contributor: {
+			name: 'Wauputra',
+			url: 'https://wau.my.id'
+		},
 		ctaLink: 'https://www.name.com',
 		tags: ['Domain', 'Gratisan', 'No Credit Card'],
 		featured: true,
@@ -52,14 +60,19 @@ export const bansosList: BansosItem[] = [
 			'Bisa apply $200 developer credits kalau ikut campaign Get 40% Off',
 			'Developer credits berlaku 30 hari setelah disetujui'
 		],
-		validity: 'Top-up sebelum 30 Juni 2026',
+		validity: 'Reviewer menyarankan klaim maksimal 17 Juni 2026',
 		requirements: [
 			'Buka campaign rules TokenRouter dan login ke akun kamu',
-			'Top-up sebelum 30 Juni 2026 untuk klaim bonus 40%',
+			'Top-up minimal $1 untuk mulai klaim bonus',
+			'Klaim sebelum 17 Juni 2026 supaya aman dari batas campaign menurut reviewer yang sudah pakai',
 			'Untuk $200 developer credits, ikut dulu campaign Get 40% Off lalu submit form klaim',
 			'Pastikan kamu cek rules resmi karena approval dan voucher bisa punya ketentuan tambahan'
 		],
-		tips: 'Kalau modal masih tipis, mulai dari $1 dulu. Jangan lupa baca campaign rules biar gak salah ekspektasi soal voucher dan masa berlaku.',
+		tips: 'Kalau modal masih tipis, mulai dari $1 dulu. Kejar sebelum 17 Juni 2026 biar gak mepet dan jangan lupa baca campaign rules.',
+		contributor: {
+			name: '!mika',
+			url: 'https://www.mikacend.xyz/'
+		},
 		ctaLink: 'https://www.tokenrouter.com/campaign-rules',
 		tags: ['AI Credits', 'Model API', 'Top-up Bonus'],
 		featured: false,

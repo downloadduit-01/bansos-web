@@ -62,6 +62,14 @@
 
 					<h2 class="card-title">{item.title}</h2>
 					<p class="provider-label">Provider: <strong>{item.provider}</strong></p>
+					{#if item.contributor}
+						<p class="contributor-label">
+							Kontributor:
+							<a href={item.contributor.url} target="_blank" rel="noopener noreferrer">
+								{item.contributor.name}
+							</a>
+						</p>
+					{/if}
 					
 					<p class="card-desc text-pretty">{item.description}</p>
 					
@@ -209,6 +217,17 @@
 		font-size: 0.9rem;
 		color: var(--text-secondary);
 		margin-top: -0.75rem;
+	}
+
+	.contributor-label {
+		font-size: 0.85rem;
+		color: var(--text-muted);
+		margin-top: -1rem;
+	}
+
+	.contributor-label a {
+		color: var(--color-accent);
+		font-weight: 650;
 	}
 
 	.card-desc {
