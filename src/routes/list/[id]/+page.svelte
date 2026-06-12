@@ -132,6 +132,16 @@
 				{/if}
 			</header>
 
+			{#if item.tips}
+				<div class="tips-box">
+					<span class="tips-icon"><i class="fa-solid fa-lightbulb"></i></span>
+					<div class="tips-content">
+						<h3>Tips Pro Jelata:</h3>
+						<p>{item.tips}</p>
+					</div>
+				</div>
+			{/if}
+
 			<section class="section-block">
 				<h2><i class="fa-solid fa-circle-question"></i> Apa ini?</h2>
 				<p class="description-text text-pretty">{item.description}</p>
@@ -154,11 +164,11 @@
 					</p>
 					<div class="promo-clipboard-box">
 						<code>{item.promoCode}</code>
-						<button class="btn-primary" onclick={(e) => copyCode(item.promoCode || '', e)}>
+						<button class="btn-primary copy-btn" onclick={(e) => copyCode(item.promoCode || '', e)}>
 							{#if copied}
-								Copied! <i class="fa-solid fa-check"></i>
+								<i class="fa-solid fa-check"></i> Copied!
 							{:else}
-								Salin Kode <i class="fa-solid fa-clipboard"></i>
+								<i class="fa-solid fa-copy"></i> Salin
 							{/if}
 						</button>
 					</div>
@@ -178,16 +188,6 @@
 					{/each}
 				</ol>
 			</section>
-
-			{#if item.tips}
-				<div class="tips-box">
-					<span class="tips-icon"><i class="fa-solid fa-lightbulb"></i></span>
-					<div class="tips-content">
-						<h3>Tips Pro Jelata:</h3>
-						<p>{item.tips}</p>
-					</div>
-				</div>
-			{/if}
 
 			<div class="action-footer">
 				<a
@@ -498,6 +498,15 @@
 		font-weight: 700;
 		color: var(--text-primary);
 		letter-spacing: 0.05em;
+	}
+
+	.copy-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		white-space: nowrap;
+		flex-shrink: 0;
 	}
 
 	/* Step List */
