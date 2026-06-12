@@ -3,43 +3,71 @@
 
 	let { repo = 'wauputr4/bansos' }: { repo?: string } = $props();
 	let stars: number | string = $state('-');
+	let forks: number | string = $state('-');
+	let version: string = $state('v-');
 
 	onMount(() => {
 		fetch(`https://api.github.com/repos/${repo}`)
 			.then((res) => {
-				if (!res.ok) throw new Error('API limit or error');
+				if (!res.ok) return;
 				return res.json();
 			})
 			.then((data) => {
-				stars = data.stargazers_count;
+				if (data) {
+					stars = data.stargazers_count;
+					forks = data.forks_count;
+				}
 			})
-			.catch(() => {
-				stars = '-';
-			});
+			.catch(() => {});
+
+		fetch(`https://api.github.com/repos/${repo}/releases/latest`)
+			.then((res) => {
+				if (!res.ok) return;
+				return res.json();
+			})
+			.then((data) => {
+				if (data) version = data.tag_name;
+			})
+			.catch(() => {});
 	});
 </script>
 
-<a href={`https://github.com/${repo}`} target="_blank" rel="noopener noreferrer" class="repo-link" aria-label="GitHub Repository">
-	<svg class="github-icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
-		<path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+<a
+	href={`https://github.com/${repo}`}
+	target="_blank"
+	rel="noopener noreferrer"
+	class="repo-link"
+	aria-label="GitHub Repository"
+>
+	<svg class="git-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+		<path
+			fill="currentColor"
+			d="M23.546 10.93L13.067.452c-.604-.603-1.582-.603-2.188 0L8.708 2.627l2.76 2.76c.645-.215 1.379-.07 1.889.441.516.515.658 1.258.438 1.9l2.738 2.738c.64-.22 1.383-.08 1.9.435.812.811.812 2.132 0 2.943-.812.812-2.132.812-2.943 0-.516-.516-.656-1.259-.441-1.9l-2.736-2.736v6.805c.215.21.357.51.357.814 0 .816-.67 1.477-1.477 1.477-.808 0-1.48-.661-1.48-1.477 0-.322.15-.624.382-.833v-6.8c-.22-.208-.373-.508-.373-.83 0-.469.213-.882.542-1.157L5.147 4.18 .453 8.874c-.603.604-.603 1.585 0 2.189l10.478 10.477c.606.604 1.587.604 2.189 0l10.426-10.426c.604-.604.604-1.584 0-2.184"
+		/>
 	</svg>
-	<span class="repo-name">{repo}</span>
-	<span class="stars">★ {stars}</span>
+	<div class="repo-info">
+		<span class="repo-name">{repo}</span>
+		<div class="stats-row">
+			<span class="stat">{version}</span>
+			<span class="stat">★ {stars}</span>
+			<span class="stat">⑂ {forks}</span>
+		</div>
+	</div>
 </a>
 
 <style>
 	.repo-link {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.5rem;
+		gap: 0.6rem;
 		border: 1px solid var(--border-color);
 		color: var(--text-secondary);
-		font-size: 0.9rem;
-		font-weight: 700;
-		padding: 0.5rem 0.75rem;
+		padding: 0.4rem 0.75rem;
 		border-radius: 0.5rem;
 		text-decoration: none;
-		transition: background-color 0.2s, color 0.2s;
+		transition:
+			background-color 0.2s,
+			color 0.2s;
 	}
 
 	.repo-link:hover {
@@ -47,26 +75,37 @@
 		background: rgba(255, 255, 255, 0.05);
 	}
 
-	.github-icon {
+	.git-icon {
 		flex-shrink: 0;
 	}
 
+	.repo-info {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+
 	.repo-name {
+		font-size: 0.8rem;
+		font-weight: 750;
+		line-height: 1;
+		color: var(--text-primary);
+	}
+
+	.stats-row {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+	}
+
+	.stat {
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: var(--text-muted);
 		line-height: 1;
 	}
 
-	.stars {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.2rem;
-		font-size: 0.85rem;
-		color: var(--text-muted);
-		padding-left: 0.5rem;
-		border-left: 1px solid var(--border-color);
-		line-height: 1;
-	}
-	
-	.repo-link:hover .stars {
+	.repo-link:hover .stat {
 		color: var(--text-secondary);
 	}
 </style>

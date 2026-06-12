@@ -73,6 +73,7 @@
 		justify-content: space-between;
 		gap: 1rem;
 		min-height: 3.5rem;
+		position: relative;
 	}
 
 	.brand-mark {
@@ -168,6 +169,9 @@
 
 		.desktop-nav {
 			display: flex;
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
 		}
 
 		.mobile-bottom-nav {
