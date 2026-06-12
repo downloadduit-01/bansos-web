@@ -196,7 +196,7 @@
 					rel="noopener noreferrer"
 					class="btn-primary cta-btn"
 				>
-					Eksekusi ke Website Official <i class="fa-solid fa-rocket"></i>
+					<i class="fa-solid fa-rocket"></i> Eksekusi ke Website Official
 				</a>
 			</div>
 		</div>
@@ -393,6 +393,8 @@
 		padding: 0.2rem 0.6rem;
 		border-radius: 0.5rem;
 		color: var(--text-secondary);
+		white-space: nowrap;
+		flex-shrink: 0;
 	}
 
 	.status-badge {
@@ -508,7 +510,7 @@
 
 	.step-item {
 		display: flex;
-		align-items: flex-start;
+		align-items: center;
 		gap: 1rem;
 		background: rgba(255, 255, 255, 0.02);
 		padding: 1rem;
@@ -572,6 +574,10 @@
 		width: 100%;
 		font-size: 1.1rem;
 		padding: 1rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.75rem;
 	}
 
 	/* Illustrations Grid */
