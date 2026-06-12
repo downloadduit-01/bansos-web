@@ -15,28 +15,42 @@
 	}
 
 	onMount(() => {
-		fetch(`https://api.github.com/repos/${repo}`)
-			.then((res) => {
-				if (!res.ok) return;
-				return res.json();
-			})
-			.then((data) => {
-				if (data) {
-					stars = data.stargazers_count;
-					forks = data.forks_count;
-				}
-			})
-			.catch(() => {});
+		const CACHE_KEY = `bansos_gh_${repo}`;
+		const TTL = 2 * 60 * 60 * 1000; // 2 hours
 
-		fetch(`https://api.github.com/repos/${repo}/releases/latest`)
-			.then((res) => {
-				if (!res.ok) return;
-				return res.json();
-			})
-			.then((data) => {
-				if (data && data.tag_name) {
-					version = data.tag_name;
+		const cached = localStorage.getItem(CACHE_KEY);
+		if (cached) {
+			try {
+				const parsed = JSON.parse(cached);
+				if (Date.now() - parsed.timestamp < TTL) {
+					stars = parsed.stars;
+					forks = parsed.forks;
+					version = parsed.version;
+					return;
 				}
+			} catch (e) {
+				// Ignore parse error
+			}
+		}
+
+		Promise.all([
+			fetch(`https://api.github.com/repos/${repo}`).then((r) => (r.ok ? r.json() : null)),
+			fetch(`https://api.github.com/repos/${repo}/releases/latest`).then((r) =>
+				r.ok ? r.json() : null
+			)
+		])
+			.then(([repoData, releaseData]) => {
+				if (repoData) {
+					stars = repoData.stargazers_count;
+					forks = repoData.forks_count;
+				}
+				if (releaseData && releaseData.tag_name) {
+					version = releaseData.tag_name;
+				}
+				localStorage.setItem(
+					CACHE_KEY,
+					JSON.stringify({ stars, forks, version, timestamp: Date.now() })
+				);
 			})
 			.catch(() => {});
 	});
