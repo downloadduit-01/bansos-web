@@ -1,28 +1,25 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import type { BansosItem } from '$lib/data/bansos';
 
 	let { title, icon, items }: { title: string; icon: string; items: BansosItem[] } = $props();
 
 	let activeTooltip = $state<string | null>(null);
-
-	function toggleTooltip(id: string, e: Event) {
-		e.preventDefault();
-		e.stopPropagation();
-		activeTooltip = activeTooltip === id ? null : id;
-	}
 </script>
 
 <div class="scroll-section">
 	<div class="section-header">
 		<h2><i class={icon}></i> {title}</h2>
-		<a href="/list" class="see-all">Lihat Semua <i class="fa-solid fa-arrow-right"></i></a>
+		<a href={resolve('/list')} class="see-all"
+			>Lihat Semua <i class="fa-solid fa-arrow-right"></i></a
+		>
 	</div>
 	<div class="highlight-scroll">
 		{#each items as item (item.id)}
-			<a href="/list/{item.id}" class="highlight-card glass-card">
+			<a href={resolve(`/list/${item.id}`)} class="highlight-card glass-card">
 				<div class="highlight-header">
 					<div class="tags-container">
-						{#each item.tags.slice(0, 1) as tag}
+						{#each item.tags.slice(0, 1) as tag (tag)}
 							<span class="highlight-tag">
 								<i class="fa-solid fa-tag"></i>
 								<span class="tag-text">{tag}</span>
@@ -30,7 +27,6 @@
 						{/each}
 					</div>
 					{#if item.status !== 'expired'}
-						<!-- svelte-ignore a11y_interactive_supports_focus -->
 						{#if item.validity.type === 'forever'}
 							<span
 								class="validity-badge validity-forever {item.validity.description

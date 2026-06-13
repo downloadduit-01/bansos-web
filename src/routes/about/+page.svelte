@@ -1,3 +1,7 @@
+<script lang="ts">
+	import { resolve } from '$app/paths';
+</script>
+
 <svelte:head>
 	<title>Tentang bansos.dev</title>
 	<meta
@@ -19,7 +23,7 @@
 			Semua daftar disimpan sebagai data terstruktur, jadi mudah dicari, difilter lewat tag, dan
 			dikontribusikan lewat GitHub.
 		</p>
-		<a href="/list" class="btn-primary">Lihat List Bansos</a>
+		<a href={resolve('/list')} class="btn-primary">Lihat List Bansos</a>
 	</section>
 </main>
 

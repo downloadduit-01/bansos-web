@@ -1,4 +1,5 @@
 import { browser } from '$app/environment';
+import { SvelteDate } from 'svelte/reactivity';
 import {
 	bansosList as initialBansosList,
 	addTrackedCtaLink,
@@ -16,15 +17,19 @@ export const bansosState = $state({
 	isFetching: false
 });
 
-function checkExpired(data: BansosItem[], referenceDate: Date): BansosItem[] {
+type LegacyBansosItem = Omit<BansosItem, 'validity'> & {
+	validity: BansosItem['validity'] | string;
+};
+
+function checkExpired(data: LegacyBansosItem[], referenceDate: SvelteDate): BansosItem[] {
 	if (isNaN(referenceDate.getTime())) {
-		referenceDate = new Date();
+		referenceDate = new SvelteDate();
 	}
 	const todayStr = referenceDate.toISOString().split('T')[0];
 	return data.map((item) => {
 		let validityObj = item.validity;
 		if (typeof validityObj === 'string') {
-			validityObj = { type: 'uncertain' } as any;
+			validityObj = { type: 'uncertain' };
 		}
 
 		if (
@@ -42,7 +47,7 @@ function checkExpired(data: BansosItem[], referenceDate: Date): BansosItem[] {
 }
 
 // Perform an initial local check so SSG/SSR starts somewhat correct
-bansosState.data = checkExpired(initialBansosList, new Date());
+bansosState.data = checkExpired(initialBansosList, new SvelteDate());
 
 let isInitialized = false;
 
@@ -67,7 +72,7 @@ export function initBansosStore() {
 		.then((res) => {
 			const dateHeader = res.headers.get('Date');
 			if (dateHeader) {
-				const serverDate = new Date(dateHeader);
+				const serverDate = new SvelteDate(dateHeader);
 				bansosState.data = checkExpired(bansosState.data, serverDate);
 			}
 		})
@@ -85,7 +90,7 @@ export async function fetchLatestBansos() {
 		if (!res.ok) throw new Error('Failed to fetch from GitHub');
 
 		const serverDateStr = res.headers.get('Date');
-		const serverDate = serverDateStr ? new Date(serverDateStr) : new Date();
+		const serverDate = serverDateStr ? new SvelteDate(serverDateStr) : new SvelteDate();
 
 		const newData = await res.json();
 

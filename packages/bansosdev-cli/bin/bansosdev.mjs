@@ -98,7 +98,11 @@ function payloadFromArgs(args) {
 		}
 		const [year, month, day] = validity.date.split('-').map(Number);
 		const parsedDate = new Date(year, month - 1, day);
-		if (parsedDate.getFullYear() !== year || parsedDate.getMonth() !== month - 1 || parsedDate.getDate() !== day) {
+		if (
+			parsedDate.getFullYear() !== year ||
+			parsedDate.getMonth() !== month - 1 ||
+			parsedDate.getDate() !== day
+		) {
 			throw new Error('--validity-date is not a valid calendar date');
 		}
 	}
@@ -116,10 +120,13 @@ function payloadFromArgs(args) {
 		validity: validity,
 		requirements: list(required(args, 'requirements')),
 		tips: args.tips,
-		contributor: args['contributor-name'] && args['contributor-url'] ? {
-			name: args['contributor-name'],
-			url: args['contributor-url']
-		} : undefined,
+		contributor:
+			args['contributor-name'] && args['contributor-url']
+				? {
+						name: args['contributor-name'],
+						url: args['contributor-url']
+					}
+				: undefined,
 		ctaLink: validateUrl(required(args, 'cta-link'), 'cta-link'),
 		tags: csv(required(args, 'tags')),
 		featured: args.featured === 'true',

@@ -28,7 +28,7 @@
 					version = parsed.version;
 					return;
 				}
-			} catch (e) {
+			} catch {
 				// Ignore parse error
 			}
 		}

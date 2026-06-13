@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import BansosHighlights from '$lib/components/BansosHighlights.svelte';
 	import { latestBansos, featuredBansos } from '$lib/data/bansos';
 
@@ -126,7 +127,7 @@
 
 		<!-- Large Glowing CTA -->
 		<div class="cta-container">
-			<a href="/list" class="btn-primary main-cta">
+			<a href={resolve('/list')} class="btn-primary main-cta">
 				<i class="fa-solid fa-magnifying-glass"></i> Lihat Semua Bansos
 			</a>
 		</div>

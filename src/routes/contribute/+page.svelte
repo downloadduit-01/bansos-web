@@ -2,30 +2,29 @@
 	import { getContributorStats, type ContributorSummary } from '$lib/data/bansos';
 
 	const contributors: ContributorSummary[] = getContributorStats();
-	const singleLineExample =
-		'npx bansosdev add --id name-com-developer-jelata --title "Promo Domain .app/.dev/.online/.site/.link" --provider "name.com" --description "Nikmati promo pendaftaran domain dengan 12.5% diskon khusus paket domain, tanpa perlu kartu kredit untuk akun tertentu." --benefits "Tidak perlu kartu kredit|Tidak ada biaya setup|Layanan domain untuk developer" --validity "Berlaku 8-30 Juni 2026" --requirements "Daftar akun name.com|Gunakan promo code DEVWEEK26|Maksimal 1 domain per akun" --promo-code "DEVWEEK26" --cta-link "https://www.name.com" --tags "Domain,Promo,Gratis,Cloud" --contributor-name "Wauputra" --contributor-url "https://wau.my.id" --featured false --status expired';
-	const multilineExample =
-		`npx bansosdev add \
-  --id name-com-developer-jelata \
-  --title "Promo Domain .app/.dev/.online/.site/.link" \
-  --provider "name.com" \
-  --description "Nikmati promo pendaftaran domain dengan 12.5% diskon khusus paket domain, tanpa perlu kartu kredit untuk akun tertentu." \
-  --benefits "Tidak perlu kartu kredit|Tidak ada biaya setup|Layanan domain untuk developer" \
-  --validity "Berlaku 8-30 Juni 2026" \
-  --requirements "Daftar akun name.com|Gunakan promo code DEVWEEK26|Maksimal 1 domain per akun" \
-  --promo-code "DEVWEEK26" \
-  --cta-link "https://www.name.com" \
-  --tags "Domain,Promo,Gratis,Cloud" \
-  --contributor-name "Wauputra" \
-  --contributor-url "https://wau.my.id" \
-  --featured false \
-  --status expired`;
-	let copiedNotice = '';
+	const singleLineExample = 'npx bansosdev --help';
+	const multilineExample = [
+		'npx bansosdev add \\',
+		'  --id contoh-bansos \\',
+		'  --title "Contoh Bansos Developer" \\',
+		'  --provider "Provider" \\',
+		'  --description "Deskripsi singkat bansos." \\',
+		'  --benefits "Benefit satu|Benefit dua" \\',
+		'  --validity-type "uncertain" \\',
+		'  --validity-desc "Berlaku sampai slot habis" \\',
+		'  --requirements "Buat akun|Klaim program" \\',
+		'  --cta-link "https://example.com" \\',
+		'  --contributor-name "Nama Kamu" \\',
+		'  --contributor-url "https://example.com" \\',
+		'  --tags "Cloud,Gratisan" \\',
+		'  --status active'
+	].join('\n');
+	let copiedNotice = $state('');
 
 	const copyToClipboard = async (text: string, label: string) => {
 		try {
 			await navigator.clipboard.writeText(text);
-			copiedNotice = `${label} sudah disalin 👍`;
+			copiedNotice = `${label} sudah disalin.`;
 			setTimeout(() => {
 				copiedNotice = '';
 			}, 1800);
@@ -60,7 +59,7 @@
 					<button
 						type="button"
 						class="copy-button"
-						on:click={() => copyToClipboard(singleLineExample, 'Command one-line')}
+						onclick={() => copyToClipboard(singleLineExample, 'Command one-line')}
 					>
 						Copy
 					</button>
@@ -73,7 +72,7 @@
 					<button
 						type="button"
 						class="copy-button"
-						on:click={() => copyToClipboard(multilineExample, 'Command multiline')}
+						onclick={() => copyToClipboard(multilineExample, 'Command multiline')}
 					>
 						Copy
 					</button>
@@ -102,9 +101,10 @@
 			</h2>
 			{#if contributors.length > 0}
 				<ul class="contributors-list">
-					{#each contributors as contributor}
+					{#each contributors as contributor (`${contributor.name}-${contributor.url}`)}
 						<li class="contributor-card">
 							<div class="contributor-name">
+								<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 								<a href={contributor.url} target="_blank" rel="noopener noreferrer">
 									{contributor.name}
 								</a>
