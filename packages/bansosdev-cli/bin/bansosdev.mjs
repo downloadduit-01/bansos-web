@@ -212,14 +212,15 @@ async function dispatchWorkflow(args, payload) {
 }
 
 async function main() {
-	const args = parseArgs(process.argv.slice(2));
+	const argv = process.argv.slice(2);
+	const args = parseArgs(argv);
 	if (
 		!args.command ||
 		args.command === 'help' ||
 		args.command === '--help' ||
 		args.command === '-h' ||
 		args.help === 'true' ||
-		args.h === 'true'
+		argv.includes('-h')
 	) {
 		help();
 		return;
