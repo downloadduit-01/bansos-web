@@ -26,11 +26,13 @@ npx bansosdev add \
 ### Parameter Masa Berlaku (Validity)
 
 Data validity menggunakan format terstruktur untuk mempermudah filter dan tampilan UI:
+
 - `--validity-type`: **(Wajib)** Enum: `fixed` | `uncertain` | `forever`.
 - `--validity-date`: **(Wajib jika type=fixed)** Format ISO `YYYY-MM-DD`. Sistem akan otomatis men-set status menjadi expired jika waktu lokal server melebihi tanggal ini.
-- `--validity-desc`: *(Opsional)* Deskripsi/catatan tambahan yang akan di-render sebagai tooltip pada UI.
+- `--validity-desc`: _(Opsional)_ Deskripsi/catatan tambahan yang akan di-render sebagai tooltip pada UI.
 
 Contoh input `forever` (tanpa date):
+
 ```bash
 npx bansosdev add ... --validity-type forever --validity-desc "Berlaku selamanya"
 ```

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import type { BansosItem } from '$lib/data/bansos';
 
 	let { item, compact = false }: { item: BansosItem; compact?: boolean } = $props();
@@ -7,7 +8,7 @@
 <article class:compact class:is-expired={item.status === 'expired'} class="glass-card bansos-card">
 	<div class="card-header">
 		<div class="tags-scroll-container">
-			{#each item.tags as tag}
+			{#each item.tags as tag (tag)}
 				<span class="tag-badge">{tag}</span>
 			{/each}
 		</div>
@@ -33,6 +34,7 @@
 	{#if item.contributor}
 		<p class="contributor-label">
 			Kontributor:
+			<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 			<a href={item.contributor.url} target="_blank" rel="noopener noreferrer">
 				{item.contributor.name}
 			</a>
@@ -42,7 +44,7 @@
 	<p class="card-desc text-pretty">{item.description}</p>
 
 	<div class="card-actions">
-		<a href="/list/{item.id}" class="btn-primary"> Lihat Cara Klaim Lengkap </a>
+		<a href={resolve(`/list/${item.id}`)} class="btn-primary"> Lihat Cara Klaim Lengkap </a>
 	</div>
 </article>
 

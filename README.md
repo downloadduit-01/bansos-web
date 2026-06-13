@@ -50,9 +50,10 @@ npx bansosdev add \
 ### Penjelasan Parameter Validity (Masa Berlaku)
 
 Agar format UI seragam, input masa berlaku (validity) kini menggunakan format terstruktur:
+
 - `--validity-type` **(Wajib)**: Pilih salah satu dari `fixed` (ada batas waktu), `uncertain` (tidak menentu), atau `forever` (selamanya).
 - `--validity-date` **(Wajib jika type=fixed)**: Tanggal kadaluarsa promo dalam format `YYYY-MM-DD` (contoh: `2026-06-30`). Sistem akan otomatis menandai bansos sebagai `expired` jika melewati tanggal ini.
-- `--validity-desc` *(Opsional)*: Tambahan catatan khusus terkait masa berlaku (contoh: "Selama kuota masih ada"). Teks ini akan muncul sebagai *tooltip* saat label masa berlaku di-hover.
+- `--validity-desc` _(Opsional)_: Tambahan catatan khusus terkait masa berlaku (contoh: "Selama kuota masih ada"). Teks ini akan muncul sebagai _tooltip_ saat label masa berlaku di-hover.
 
 ### Cek payload
 

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import type { BansosItem } from '$lib/data/bansos';
 
 	let { items }: { items: BansosItem[] } = $props();
@@ -6,7 +7,7 @@
 
 <div class="highlight-container">
 	{#each items as item, index (item.id)}
-		<a href="/list/{item.id}" class="highlight-card glass-card">
+		<a href={resolve(`/list/${item.id}`)} class="highlight-card glass-card">
 			<div class="highlight-header">
 				<span class="highlight-tag">
 					{index === 0 ? 'BANSOS TERBARU' : 'BANSOS PILIHAN'}

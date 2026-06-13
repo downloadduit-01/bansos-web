@@ -62,7 +62,9 @@ export function addTrackedCtaLink(item: BansosItem): BansosItem {
 	};
 }
 
-export const bansosList: BansosItem[] = (bansosData as BansosItem[]).map((item) => addTrackedCtaLink(item));
+export const bansosList: BansosItem[] = (bansosData as BansosItem[]).map((item) =>
+	addTrackedCtaLink(item)
+);
 
 export const latestBansos = (limit = 3) => bansosList.slice(-limit).reverse();
 

@@ -42,9 +42,6 @@
 	let selectedStatuses: string[] = $state([]);
 	let sortOrder: 'newest' | 'oldest' = $state('newest');
 	let filterExpanded = $state(false);
-	let floatingEmojis: { id: number; x: number; y: number; icon: string; color?: string }[] = $state(
-		[]
-	);
 
 	const dynamicTags = $derived(
 		Array.from(new Set(bansosState.data.flatMap((item) => item.tags))).sort((a, b) =>
@@ -218,7 +215,7 @@
 							>
 								Semua Status
 							</button>
-							{#each ['active', 'upcoming', 'expired'] as status}
+							{#each ['active', 'upcoming', 'expired'] as status (status)}
 								<button
 									class="tag-btn"
 									class:active={selectedStatuses.includes(status)}

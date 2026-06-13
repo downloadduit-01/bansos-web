@@ -43,15 +43,6 @@ function csv(value) {
 		.filter(Boolean);
 }
 
-function quote(value) {
-	return `'${String(value).replaceAll('\\', '\\\\').replaceAll("'", "\\'")}'`;
-}
-
-function arrayLiteral(values, indent = 3) {
-	const pad = '\t'.repeat(indent);
-	return `[\n${values.map((value) => `${pad}${quote(value)}`).join(',\n')}\n${'\t'.repeat(indent - 1)}]`;
-}
-
 const args = parseArgs(process.argv.slice(2));
 const jsonInput = args.json
 	? args.json.trim().startsWith('{')
@@ -78,7 +69,11 @@ if (validityType === 'fixed') {
 	}
 	const [year, month, day] = validity.date.split('-').map(Number);
 	const parsedDate = new Date(year, month - 1, day);
-	if (parsedDate.getFullYear() !== year || parsedDate.getMonth() !== month - 1 || parsedDate.getDate() !== day) {
+	if (
+		parsedDate.getFullYear() !== year ||
+		parsedDate.getMonth() !== month - 1 ||
+		parsedDate.getDate() !== day
+	) {
 		throw new Error('validity date is not a valid calendar date');
 	}
 }
@@ -102,10 +97,14 @@ const item = {
 		? mergedArgs.requirements
 		: list(required(mergedArgs, 'requirements')),
 	tips: mergedArgs.tips,
-	contributor: (mergedArgs['contributor-name'] || mergedArgs.contributorName) && (mergedArgs['contributor-url'] || mergedArgs.contributorUrl) ? {
-		name: mergedArgs['contributor-name'] || mergedArgs.contributorName,
-		url: mergedArgs['contributor-url'] || mergedArgs.contributorUrl
-	} : undefined,
+	contributor:
+		(mergedArgs['contributor-name'] || mergedArgs.contributorName) &&
+		(mergedArgs['contributor-url'] || mergedArgs.contributorUrl)
+			? {
+					name: mergedArgs['contributor-name'] || mergedArgs.contributorName,
+					url: mergedArgs['contributor-url'] || mergedArgs.contributorUrl
+				}
+			: undefined,
 	ctaLink: mergedArgs['cta-link'] || required(mergedArgs, 'ctaLink'),
 	tags: Array.isArray(mergedArgs.tags) ? mergedArgs.tags : csv(required(mergedArgs, 'tags')),
 	featured: mergedArgs.featured === true || mergedArgs.featured === 'true',
@@ -117,8 +116,10 @@ if (item.requirements.length === 0)
 	throw new Error('--requirements must contain at least one item');
 if (item.tags.length === 0) throw new Error('--tags must contain at least one item');
 if (
-	((mergedArgs['contributor-name'] || mergedArgs.contributorName) && !(mergedArgs['contributor-url'] || mergedArgs.contributorUrl)) ||
-	(!(mergedArgs['contributor-name'] || mergedArgs.contributorName) && (mergedArgs['contributor-url'] || mergedArgs.contributorUrl))
+	((mergedArgs['contributor-name'] || mergedArgs.contributorName) &&
+		!(mergedArgs['contributor-url'] || mergedArgs.contributorUrl)) ||
+	(!(mergedArgs['contributor-name'] || mergedArgs.contributorName) &&
+		(mergedArgs['contributor-url'] || mergedArgs.contributorUrl))
 ) {
 	throw new Error('Use --contributor-name and --contributor-url together');
 }

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import GithubBadge from './GithubBadge.svelte';
 	let { children } = $props();
 
@@ -17,10 +18,10 @@
 <div class="site-shell">
 	<header class="site-header">
 		<nav class="container nav-shell" aria-label="Navigasi utama">
-			<a href="/" class="brand-mark">bansos.dev</a>
+			<a href={resolve('/')} class="brand-mark">bansos.dev</a>
 			<div class="desktop-nav">
-				{#each navItems as item}
-					<a href={item.href}>{item.label}</a>
+				{#each navItems as item (item.href)}
+					<a href={resolve(item.href)}>{item.label}</a>
 				{/each}
 			</div>
 			<GithubBadge />
@@ -31,10 +32,10 @@
 
 	<footer class="site-footer">
 		<div class="container footer-inner">
-			<p>© 2026 <a href="/">bansos.dev</a>. Bantuan sosial untuk developer jelata.</p>
+			<p>© 2026 <a href={resolve('/')}>bansos.dev</a>. Bantuan sosial untuk developer jelata.</p>
 			<div class="footer-links">
-				<a href="/about">Tentang</a>
-				<a href="/contribute">Kontribusi</a>
+				<a href={resolve('/about')}>Tentang</a>
+				<a href={resolve('/contribute')}>Kontribusi</a>
 				<a href="https://github.com/wauputr4/bansos" target="_blank" rel="noopener noreferrer"
 					>Open Source</a
 				>
@@ -43,8 +44,8 @@
 	</footer>
 
 	<nav class="mobile-bottom-nav" aria-label="Navigasi mobile">
-		{#each navItems as item}
-			<a href={item.href}>
+		{#each navItems as item (item.href)}
+			<a href={resolve(item.href)}>
 				<span aria-hidden="true"><i class={item.icon}></i></span>
 				{item.label}
 			</a>

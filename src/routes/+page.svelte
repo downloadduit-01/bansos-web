@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import BansosHighlights from '$lib/components/BansosHighlights.svelte';
 	import { latestBansos } from '$lib/data/bansos';
 
@@ -114,7 +115,7 @@
 
 		<!-- Large Glowing CTA -->
 		<div class="cta-container">
-			<a href="/list" class="btn-primary main-cta"> Lihat Semua List Bansos 🔎 </a>
+			<a href={resolve('/list')} class="btn-primary main-cta"> Lihat Semua List Bansos 🔎 </a>
 		</div>
 	</header>
 

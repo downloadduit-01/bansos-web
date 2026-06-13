@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import FloatingEmoji from '$lib/components/FloatingEmoji.svelte';
 	import BansosCard from '$lib/components/BansosCard.svelte';
 	import { bansosState, initBansosStore, fetchLatestBansos } from '$lib/stores/bansos.svelte';
@@ -88,6 +89,7 @@
 				}
 			: null
 	);
+	const schemaJson = $derived(schemaData ? JSON.stringify(schemaData) : '');
 
 	const recommendedBansos = $derived.by(() => {
 		if (!item) return [];
@@ -119,9 +121,7 @@
 		<meta property="twitter:title" content={seoTitle} />
 		<meta property="twitter:description" content={seoDesc} />
 
-		<script type="application/ld+json">
-			{JSON.stringify(schemaData)}
-		</script>
+		<svelte:element this="script" type="application/ld+json">{schemaJson}</svelte:element>
 	{/if}
 </svelte:head>
 
@@ -161,7 +161,7 @@
 					Sepertinya bansos ini udah digondol koruptor atau belum masuk ke sistem, fr fr 😭
 				</p>
 				<a
-					href="/list"
+					href={resolve('/list')}
 					class="btn-primary"
 					style="margin-top: 1rem; gap: 0.5rem; text-decoration: none;"
 				>
@@ -176,7 +176,7 @@
 
 		<!-- Top Navigation -->
 		<nav class="top-nav container">
-			<a href="/list" class="btn-back">
+			<a href={resolve('/list')} class="btn-back">
 				<span class="arrow">←</span> Kembali ke List Bansos
 			</a>
 		</nav>
@@ -187,7 +187,7 @@
 				<header class="detail-header">
 					<div class="header-top-row">
 						<div class="tags-scroll-container">
-							{#each item.tags as tag}
+							{#each item.tags as tag (tag)}
 								<span class="tag-badge">{tag}</span>
 							{/each}
 						</div>
@@ -247,7 +247,7 @@
 				<section class="section-block">
 					<h2><i class="fa-solid fa-gift"></i> Benefit yang Didapatkan:</h2>
 					<ul class="benefit-list">
-						{#each item.benefits as benefit}
+						{#each item.benefits as benefit (benefit)}
 							<li><span class="check-icon">✓</span> {benefit}</li>
 						{/each}
 					</ul>
@@ -280,7 +280,7 @@
 						<i class="fa-solid fa-screwdriver-wrench"></i> Step-by-Step Cara Dapetinnya (No Cap):
 					</h2>
 					<ol class="step-list">
-						{#each item.requirements as req, idx}
+						{#each item.requirements as req, idx (req)}
 							<li class="step-item">
 								<span class="step-num">{idx + 1}</span>
 								<p class="step-content text-pretty">{req}</p>
@@ -309,12 +309,14 @@
 			</h2>
 			{#if recommendedBansos.length > 0}
 				<div class="recommendation-grid">
-					{#each recommendedBansos as recommend}
+					{#each recommendedBansos as recommend (recommend.id)}
 						<BansosCard item={recommend} compact={true} />
 					{/each}
 				</div>
 			{:else}
-				<p class="empty-recommendation text-pretty">Belum ada rekomendasi lain saat ini, balik ke list ya.</p>
+				<p class="empty-recommendation text-pretty">
+					Belum ada rekomendasi lain saat ini, balik ke list ya.
+				</p>
 			{/if}
 		</section>
 
