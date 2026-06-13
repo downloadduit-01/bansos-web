@@ -8,7 +8,11 @@ export interface BansosItem {
 	description: string;
 	benefits: string[];
 	promoCode?: string;
-	validity: string;
+	validity: {
+		type: 'fixed' | 'uncertain' | 'forever';
+		date?: string;
+		description?: string;
+	};
 	requirements: string[];
 	tips?: string;
 	contributor?: {

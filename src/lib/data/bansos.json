@@ -11,7 +11,10 @@
 			"Status arsip: promo code DEVWEEK26 sudah tidak bisa digunakan lagi"
 		],
 		"promoCode": "DEVWEEK26",
-		"validity": "Sudah tidak aktif (promo code tidak bisa digunakan lagi)",
+		"validity": {
+			"type": "uncertain",
+			"description": "Sudah tidak aktif (promo code tidak bisa digunakan lagi)"
+		},
 		"requirements": [
 			"Punya akun Name.com aktif",
 			"Pilih domain .dev atau .app yang tersedia",
@@ -39,7 +42,11 @@
 			"Bisa apply $200 developer credits kalau ikut campaign Get 40% Off",
 			"Developer credits berlaku 30 hari setelah disetujui"
 		],
-		"validity": "Reviewer menyarankan klaim maksimal 17 Juni 2026",
+		"validity": {
+			"type": "fixed",
+			"date": "2026-06-17",
+			"description": "Reviewer menyarankan klaim maksimal 17 Juni 2026"
+		},
 		"requirements": [
 			"Buka campaign rules TokenRouter dan login ke akun kamu",
 			"Top-up minimal $1 untuk mulai klaim bonus",
@@ -69,7 +76,10 @@
 			"Context sampai 128K dan output sampai 8K",
 			"Base URL kompatibel API: https://api.deepseek.com/v1"
 		],
-		"validity": "Credit berlaku 30 hari setelah signup",
+		"validity": {
+			"type": "uncertain",
+			"description": "Credit berlaku 30 hari setelah signup"
+		},
 		"requirements": [
 			"Daftar atau login akun DeepSeek",
 			"Generate API key di dashboard DeepSeek",
@@ -98,7 +108,10 @@
 			"Model Mercury 2 bisa dipakai dari request chat",
 			"Kompatibel dengan client library populer (AISuite, LiteLLM, LangChain, OpenAI Client, VercelAI)"
 		],
-		"validity": "Bonus berlaku untuk akun baru saat registrasi (10M token saldo awal)",
+		"validity": {
+			"type": "uncertain",
+			"description": "Bonus berlaku untuk akun baru saat registrasi (10M token saldo awal)"
+		},
 		"requirements": [
 			"Buat akun Inception Platform",
 			"Buat API key di halaman API Keys",
@@ -122,7 +135,10 @@
 		"provider": "Kimchi.dev",
 		"description": "Dapatkan saldo Serverless AI sebesar $50 setiap bulan dari Kimchi.dev secara gratis tanpa syarat kartu kredit. Cocok bagi developer yang ingin bereksperimen dan membangun aplikasi AI.",
 		"benefits": ["$50 Serverless AI credit per bulan", "Tanpa syarat kartu kredit"],
-		"validity": "Selamanya",
+		"validity": {
+			"type": "forever",
+			"description": "Selamanya"
+		},
 		"requirements": ["Daftar akun di Kimchi.dev", "Verifikasi alamat email"],
 		"contributor": {
 			"name": "DevERS",
@@ -145,7 +161,10 @@
 			"Menyediakan AI Image API, AI Video API, dan AI Text API dalam satu marketplace",
 			"Cocok buat prototype produk AI sebelum scale ke production"
 		],
-		"validity": "Selama promo/free credit Kie.ai masih tersedia; cek dashboard setelah daftar",
+		"validity": {
+			"type": "uncertain",
+			"description": "Selama promo/free credit Kie.ai masih tersedia; cek dashboard setelah daftar"
+		},
 		"requirements": [
 			"Daftar akun Kie.ai lewat link referral",
 			"Login ke dashboard dan cek saldo/credit akun",
