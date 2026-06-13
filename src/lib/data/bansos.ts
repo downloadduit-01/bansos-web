@@ -67,6 +67,11 @@ export const bansosList: BansosItem[] = (bansosData as BansosItem[]).map((item) 
 );
 
 export const latestBansos = (limit = 3) => bansosList.slice(-limit).reverse();
+export const featuredBansos = (limit = 3) =>
+	bansosList
+		.filter((i) => i.featured && i.status !== 'expired')
+		.slice(-limit)
+		.reverse();
 
 export const allBansosTags = Array.from(new Set(bansosList.flatMap((item) => item.tags))).sort(
 	(a, b) => a.localeCompare(b)
