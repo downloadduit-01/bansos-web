@@ -459,7 +459,7 @@
 			"Akses dukungan Standard-tier berbayar secara gratis selama 15 bulan dengan prioritas respons"
 		],
 		"validity": {
-			"type": "fixed",
+			"type": "uncertain",
 			"description": "Kredit komputasi hangus secara otomatis 12 bulan sejak penerimaan program"
 		},
 		"requirements": [
