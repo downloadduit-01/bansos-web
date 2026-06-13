@@ -21,6 +21,7 @@
 			"Gunakan promo code pas checkout"
 		],
 		"tips": "Promo ini sudah tidak aktif dan promo code tidak bisa dipakai lagi. Tetap disimpan sebagai arsip bansos biar developer lain gak buang waktu nyobain kode yang sudah wafat.",
+		"publishedAt": "2026-06-11",
 		"contributor": {
 			"name": "Wauputra",
 			"url": "https://wau.my.id"
@@ -29,6 +30,68 @@
 		"tags": ["Domain", "Gratisan", "No Credit Card"],
 		"featured": true,
 		"status": "expired"
+	},
+	{
+		"id": "namecheap-vps-hosting",
+		"title": "Namecheap VPS Hosting dengan Harga Mulai 3.88$/Bulan",
+		"provider": "Namecheap",
+		"description": "Paket VPS dari Namecheap dengan harga murah, plan sesuai kebutuhan, dan opsi free trial. Cocok buat yang butuh kontrol server sendiri tanpa ribet.",
+		"benefits": [
+			"Plan VPS mulai dari Spark sampai Hypernova",
+			"Mulai dari 1 CPU, RAM 1GB, SSD 20GB, bandwidth 1000GB",
+			"Pilihan manajemen server serta root access dan kontrol panel",
+			"Tersedia free trial sebelum upgrade ke berlangganan"
+		],
+		"validity": {
+			"type": "uncertain",
+			"description": "Promo dan harga ditampilkan sesuai periode di halaman resmi"
+		},
+		"requirements": [
+			"Buat/masuk akun Namecheap",
+			"Pilih plan VPS sesuai kebutuhan dan sumber daya yang kamu butuhkan",
+			"Lanjutkan checkout dan pilih durasi billing"
+		],
+		"publishedAt": "2026-06-13",
+		"contributor": {
+			"name": "wau",
+			"url": "https://wau.my.id"
+		},
+		"ctaLink": "https://www.namecheap.com/hosting/vps/",
+		"tags": ["VPS", "Hosting", "Server", "Gratis Trial"],
+		"featured": false,
+		"status": "active"
+	},
+	{
+		"id": "idwebhost-domain-gratis-1tahun",
+		"title": "Domain Gratis 1 Tahun di IDwebhost (pakai kupon)",
+		"provider": "IDwebhost",
+		"description": "Klaim domain gratis 1 tahun buat bikin web cepat, cukup pakai kupon saat checkout dan pilih ekstensi yang didukung.",
+		"benefits": [
+			"Domain gratis 1 tahun untuk yang ambil paket sesuai campaign",
+			"Mendukung klaim domain .my.id, .web.id, atau .biz.id",
+			"Kupon `mAts2Mey` jadi jalan masuk utama untuk promo",
+			"Tidak perlu tambahan paket hosting, SSL, maupun email hosting"
+		],
+		"validity": {
+			"type": "uncertain",
+			"description": "Promo dan validitas kupon bisa berubah sesuai campaign saat ini"
+		},
+		"requirements": [
+			"Punya akun di IDwebhost",
+			"Pilih domain gratis yang diinginkan",
+			"Masukkan kupon `mAts2Mey`",
+			"Saat checkout, jangan centang hosting, SSL, dan email hosting sesuai instruksi"
+		],
+		"tips": "Masukkan domain yang diinginkan dulu, lalu isi kupon dan pastikan item hosting/SSL/email hosting tidak dipilih.",
+		"publishedAt": "2026-06-13",
+		"contributor": {
+			"name": "ᴀᴢɪᴢ ʙᴜᴅɪ ꜱᴀᴛʀɪᴏ",
+			"url": "https://lynk.id/azizbudisatrio?utm_source=threads&utm_medium=social&utm_content=link_in_bio"
+		},
+		"ctaLink": "https://idwebhost.com/",
+		"tags": ["Domain", "Promo", "Kupon", "Gratisan"],
+		"featured": false,
+		"status": "active"
 	},
 	{
 		"id": "tokenrouter-model-gateway",
@@ -55,6 +118,7 @@
 			"Pastikan kamu cek rules resmi karena approval dan voucher bisa punya ketentuan tambahan"
 		],
 		"tips": "Kalau modal masih tipis, mulai dari $1 dulu. Kejar sebelum 17 Juni 2026 biar gak mepet dan jangan lupa baca campaign rules.",
+		"publishedAt": "2026-06-11",
 		"contributor": {
 			"name": "!mika",
 			"url": "https://www.mikacend.xyz/"
@@ -87,6 +151,7 @@
 			"Cek lagi ketentuan resmi karena ini data agregator, bukan verifier"
 		],
 		"tips": "Gas buat prototype dulu, tapi jangan taruh API key di frontend. Developer jelata juga wajib punya secret management.",
+		"publishedAt": "2026-06-12",
 		"contributor": {
 			"name": "TokenGratis.id",
 			"url": "https://www.tokengratis.id/provider/deepseek"
@@ -120,6 +185,7 @@
 			"Isi data sesuai kebutuhan API docs",
 			"Tambahkan billing jika butuh lanjut setelah kuota habis"
 		],
+		"publishedAt": "2026-06-12",
 		"contributor": {
 			"name": "wauputra",
 			"url": "https://wau.my.id/"
@@ -140,6 +206,7 @@
 			"description": "Selamanya"
 		},
 		"requirements": ["Daftar akun di Kimchi.dev", "Verifikasi alamat email"],
+		"publishedAt": "2026-06-12",
 		"contributor": {
 			"name": "DevERS",
 			"url": "https://renzlab.my.id"
@@ -173,6 +240,7 @@
 			"Manfaatkan free credit dan bandingkan pricing sebelum top-up"
 		],
 		"tips": "Cek dashboard secara berkala karena free credit dan promo bisa berubah. Jangan expose API key di frontend; pakai env/server-side proxy biar aman.",
+		"publishedAt": "2026-06-13",
 		"contributor": {
 			"name": "Pena Digital",
 			"url": "https://penadigital.tech/"
@@ -201,6 +269,7 @@
 			"Bawa tautan referal guru saat daftar jika diminta sistem",
 			"Bisa dapat bonus pulsa 50.000 setelah menyelesaikan semua misi (informasi dari peserta)"
 		],
+		"publishedAt": "2026-06-13",
 		"contributor": {
 			"name": "Wildan",
 			"url": "https://kelas.bisnix.com/"
@@ -226,6 +295,7 @@
 			"description": "Berlaku untuk semua pengguna yang mendaftar"
 		},
 		"requirements": ["Daftar akun di Dahono Labs Gateway", "Masuk ke Dashboard dan buat API Key"],
+		"publishedAt": "2026-06-13",
 		"contributor": {
 			"name": "Dahono Labs",
 			"url": "https://labs.dahono.com/"

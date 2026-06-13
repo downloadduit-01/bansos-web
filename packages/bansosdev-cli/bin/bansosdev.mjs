@@ -30,7 +30,7 @@ Usage:
 
 Modes:
   --mode direct   Trigger trusted GitHub Action commit (needs token)
-  --mode issue    Print a prefilled GitHub issue URL for public submission
+  --mode issue    Print a prefilled GitHub issue URL; valid issues become PRs automatically
   --mode json     Print validated JSON payload only
 
 Required:
@@ -47,6 +47,7 @@ Required:
 Optional:
   --validity-date YYYY-MM-DD (required if type is fixed)
   --validity-desc "Description"
+  --published-at YYYY-MM-DD
   --promo-code CODE
   --tips "Tips singkat"
   --contributor-name "Nama"
@@ -85,6 +86,19 @@ function validateUrl(value, key) {
 	}
 }
 
+function isValidCalendarDate(value) {
+\tif (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+\t\treturn false;
+\t}
+\tconst [year, month, day] = value.split('-').map(Number);
+\tconst parsedDate = new Date(year, month - 1, day);
+\treturn (
+\t\tparsedDate.getFullYear() === year &&
+\t\tparsedDate.getMonth() === month - 1 &&
+\t\tparsedDate.getDate() === day
+\t);
+}
+
 function payloadFromArgs(args) {
 	const validityType = required(args, 'validity-type');
 	if (!['fixed', 'uncertain', 'forever'].includes(validityType)) {
@@ -109,6 +123,10 @@ function payloadFromArgs(args) {
 	if (args['validity-desc']) {
 		validity.description = args['validity-desc'];
 	}
+	const publishedAt = args['published-at'] || new Date().toISOString().slice(0, 10);
+	if (!isValidCalendarDate(publishedAt)) {
+		throw new Error('--published-at must be a valid YYYY-MM-DD date');
+	}
 
 	const payload = {
 		id: required(args, 'id'),
@@ -120,6 +138,7 @@ function payloadFromArgs(args) {
 		validity: validity,
 		requirements: list(required(args, 'requirements')),
 		tips: args.tips,
+		publishedAt,
 		contributor:
 			args['contributor-name'] && args['contributor-url']
 				? {

@@ -5,6 +5,19 @@ import { dirname, join } from 'node:path';
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const dataPath = join(root, 'src/lib/data/bansos.json');
 
+function isValidCalendarDate(value) {
+	if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+		return false;
+	}
+	const [year, month, day] = value.split('-').map(Number);
+	const parsedDate = new Date(year, month - 1, day);
+	return (
+		parsedDate.getFullYear() === year &&
+		parsedDate.getMonth() === month - 1 &&
+		parsedDate.getDate() === day
+	);
+}
+
 function parseArgs(argv) {
 	const args = {};
 	for (let index = 0; index < argv.length; index += 1) {
@@ -87,6 +100,14 @@ const contributorName =
 	mergedArgs['contributor-name'] || mergedArgs.contributorName || mergedArgs.contributor?.name;
 const contributorUrl =
 	mergedArgs['contributor-url'] || mergedArgs.contributorUrl || mergedArgs.contributor?.url;
+const publishedAt =
+	mergedArgs['published-at'] ||
+	mergedArgs.publishedAt ||
+	new Date().toISOString().slice(0, 10);
+
+if (!isValidCalendarDate(publishedAt)) {
+	throw new Error('publishedAt must be a valid YYYY-MM-DD date');
+}
 
 const item = {
 	id: required(mergedArgs, 'id'),
@@ -102,6 +123,7 @@ const item = {
 		? mergedArgs.requirements
 		: list(required(mergedArgs, 'requirements')),
 	tips: mergedArgs.tips,
+	publishedAt,
 	contributor:
 		contributorName && contributorUrl
 			? {
