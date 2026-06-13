@@ -11,7 +11,16 @@
 				<span class="tag-badge">{tag}</span>
 			{/each}
 		</div>
-		<div class="status-container">
+		<div class="status-container" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+			<span class="validity-badge">
+				{#if item.validity.type === 'forever'}
+					<i class="fa-solid fa-infinity"></i> Selamanya
+				{:else if item.validity.type === 'fixed'}
+					<i class="fa-regular fa-calendar"></i> Sampai {item.validity.date}
+				{:else}
+					<i class="fa-solid fa-question"></i> Tidak Tentu
+				{/if}
+			</span>
 			<span class="status-badge status-{item.status}">
 				<i class="fa-solid fa-circle"></i>
 				{item.status.toUpperCase()}
@@ -96,11 +105,19 @@
 		flex-shrink: 0;
 	}
 
-	.status-badge {
+	.status-badge,
+	.validity-badge {
 		font-size: 0.75rem;
 		font-weight: 750;
 		padding: 0.2rem 0.6rem;
 		border-radius: 0.5rem;
+		white-space: nowrap;
+	}
+
+	.validity-badge {
+		background: rgba(255, 255, 255, 0.05);
+		color: var(--text-muted);
+		border: 1px solid var(--border-color);
 	}
 
 	.status-active {

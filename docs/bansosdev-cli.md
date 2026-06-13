@@ -18,7 +18,8 @@ npx bansosdev add \
   --provider "Provider" \
   --description "Deskripsi singkat bansos." \
   --benefits "Benefit satu|Benefit dua" \
-  --validity "Berlaku sampai 30 Juni 2026" \
+  --validity-type "uncertain" \
+  --validity-desc "Berlaku sampai slot habis" \
   --requirements "Buat akun|Klaim program" \
   --cta-link "https://example.com" \
   --contributor-name "Nama Kamu" \
@@ -37,7 +38,8 @@ BANSOSDEV_GITHUB_TOKEN=ghp_xxx npx bansosdev add \
   --provider "Provider" \
   --description "Deskripsi singkat bansos." \
   --benefits "Benefit satu|Benefit dua" \
-  --validity "Berlaku sampai 30 Juni 2026" \
+  --validity-type "fixed" \
+  --validity-date "2026-06-30" \
   --requirements "Buat akun|Klaim program" \
   --cta-link "https://example.com" \
   --contributor-name "Nama Kamu" \

@@ -39,12 +39,14 @@ Required:
   --provider
   --description
   --benefits "Benefit 1|Benefit 2"
-  --validity "Berlaku sampai ..."
+  --validity-type fixed|uncertain|forever
   --requirements "Step 1|Step 2"
   --cta-link "https://example.com"
   --tags "Cloud,Gratisan"
 
 Optional:
+  --validity-date YYYY-MM-DD (required if type is fixed)
+  --validity-desc "Description"
   --promo-code CODE
   --tips "Tips singkat"
   --contributor-name "Nama"
@@ -84,6 +86,21 @@ function validateUrl(value, key) {
 }
 
 function payloadFromArgs(args) {
+	const validityType = required(args, 'validity-type');
+	if (!['fixed', 'uncertain', 'forever'].includes(validityType)) {
+		throw new Error('--validity-type must be fixed, uncertain, or forever');
+	}
+	const validity = { type: validityType };
+	if (validityType === 'fixed') {
+		validity.date = required(args, 'validity-date');
+		if (!/^\d{4}-\d{2}-\d{2}$/.test(validity.date)) {
+			throw new Error('--validity-date must be YYYY-MM-DD');
+		}
+	}
+	if (args['validity-desc']) {
+		validity.description = args['validity-desc'];
+	}
+
 	const payload = {
 		id: required(args, 'id'),
 		title: required(args, 'title'),
@@ -91,7 +108,7 @@ function payloadFromArgs(args) {
 		description: required(args, 'description'),
 		benefits: list(required(args, 'benefits')),
 		promoCode: args['promo-code'],
-		validity: required(args, 'validity'),
+		validity: validity,
 		requirements: list(required(args, 'requirements')),
 		tips: args.tips,
 		contributorName: args['contributor-name'],

@@ -59,6 +59,30 @@ const jsonInput = args.json
 		: JSON.parse(readFileSync(join(process.cwd(), args.json), 'utf8'))
 	: {};
 const mergedArgs = { ...args, ...jsonInput };
+const validityType =
+	mergedArgs['validity-type'] || (mergedArgs.validity && mergedArgs.validity.type);
+if (!validityType)
+	throw new Error('Missing required argument --validity-type or validity.type in JSON');
+if (!['fixed', 'uncertain', 'forever'].includes(validityType)) {
+	throw new Error('validity type must be fixed, uncertain, or forever');
+}
+const validity = { type: validityType };
+if (validityType === 'fixed') {
+	validity.date = mergedArgs['validity-date'] || (mergedArgs.validity && mergedArgs.validity.date);
+	if (!validity.date)
+		throw new Error(
+			'Missing required argument --validity-date or validity.date in JSON for fixed type'
+		);
+	if (!/^\d{4}-\d{2}-\d{2}$/.test(validity.date)) {
+		throw new Error('validity date must be YYYY-MM-DD');
+	}
+}
+const validityDesc =
+	mergedArgs['validity-desc'] || (mergedArgs.validity && mergedArgs.validity.description);
+if (validityDesc) {
+	validity.description = validityDesc;
+}
+
 const item = {
 	id: required(mergedArgs, 'id'),
 	title: required(mergedArgs, 'title'),
@@ -68,7 +92,7 @@ const item = {
 		? mergedArgs.benefits
 		: list(required(mergedArgs, 'benefits')),
 	promoCode: mergedArgs['promo-code'] || mergedArgs.promoCode,
-	validity: required(mergedArgs, 'validity'),
+	validity: validity,
 	requirements: Array.isArray(mergedArgs.requirements)
 		? mergedArgs.requirements
 		: list(required(mergedArgs, 'requirements')),
