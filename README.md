@@ -36,7 +36,9 @@ npx bansosdev add \
   --provider "Provider" \
   --description "Deskripsi singkat bansos." \
   --benefits "Benefit satu|Benefit dua" \
-  --validity "Berlaku sampai 30 Juni 2026" \
+  --validity-type fixed \
+  --validity-date 2026-06-30 \
+  --validity-desc "Berlaku khusus pelajar" \
   --requirements "Buat akun|Klaim program" \
   --cta-link "https://example.com" \
   --contributor-name "Nama Kamu" \
@@ -44,6 +46,13 @@ npx bansosdev add \
   --tags "Cloud,Gratisan" \
   --status active
 ```
+
+### Penjelasan Parameter Validity (Masa Berlaku)
+
+Agar format UI seragam, input masa berlaku (validity) kini menggunakan format terstruktur:
+- `--validity-type` **(Wajib)**: Pilih salah satu dari `fixed` (ada batas waktu), `uncertain` (tidak menentu), atau `forever` (selamanya).
+- `--validity-date` **(Wajib jika type=fixed)**: Tanggal kadaluarsa promo dalam format `YYYY-MM-DD` (contoh: `2026-06-30`). Sistem akan otomatis menandai bansos sebagai `expired` jika melewati tanggal ini.
+- `--validity-desc` *(Opsional)*: Tambahan catatan khusus terkait masa berlaku (contoh: "Selama kuota masih ada"). Teks ini akan muncul sebagai *tooltip* saat label masa berlaku di-hover.
 
 ### Cek payload
 
@@ -60,7 +69,8 @@ npm run add:bansos -- \
   --provider "Provider" \
   --description "Deskripsi singkat bansos." \
   --benefits "Benefit satu|Benefit dua" \
-  --validity "Berlaku sampai 30 Juni 2026" \
+  --validity-type fixed \
+  --validity-date 2026-06-30 \
   --requirements "Buat akun|Klaim program" \
   --cta-link "https://example.com" \
   --contributor-name "Nama Kamu" \
@@ -87,7 +97,7 @@ Detail lengkap CLI lihat [docs/bansosdev-cli.md](docs/bansosdev-cli.md).
 
 - Kirim data lewat CLI (cara utama) lalu follow up PR dengan issue dari URL yang muncul.
 - Jika lebih nyaman, tambahkan melalui branch + PR manual.
-- Lihat panduan kontribusi lengkap di [CONTRIBUTING](.github/CONTRIBUTING.md).
+- Lihat panduan kontribusi lengkap di [CONTRIBUTING](https://github.com/wauputr4/bansos?tab=contributing-ov-file).
 
 ## Kode etik komunitas
 
@@ -95,7 +105,7 @@ Detail lengkap CLI lihat [docs/bansosdev-cli.md](docs/bansosdev-cli.md).
 
 ## Lisensi
 
-MIT. Lihat [LICENSE](LICENSE).
+MIT. Lihat [LICENSE](https://github.com/wauputr4/bansos?tab=License-1-ov-file).
 
 ## Contributors
 

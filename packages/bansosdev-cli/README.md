@@ -13,7 +13,9 @@ npx bansosdev add \
   --provider "Provider" \
   --description "Deskripsi singkat" \
   --benefits "Benefit 1|Benefit 2" \
-  --validity "Berlaku sampai 30 Juni 2026" \
+  --validity-type fixed \
+  --validity-date 2026-06-30 \
+  --validity-desc "Berlaku khusus akun baru" \
   --requirements "Daftar akun|Klaim program" \
   --cta-link "https://example.com" \
   --contributor-name "Nama Kamu" \
@@ -21,7 +23,19 @@ npx bansosdev add \
   --tags "Cloud,Gratisan"
 ```
 
-Mode ini akan mengembalikan URL issue GitHub untuk di-review maintainer.
+### Parameter Masa Berlaku (Validity)
+
+Data validity menggunakan format terstruktur untuk mempermudah filter dan tampilan UI:
+- `--validity-type`: **(Wajib)** Enum: `fixed` | `uncertain` | `forever`.
+- `--validity-date`: **(Wajib jika type=fixed)** Format ISO `YYYY-MM-DD`. Sistem akan otomatis men-set status menjadi expired jika waktu lokal server melebihi tanggal ini.
+- `--validity-desc`: *(Opsional)* Deskripsi/catatan tambahan yang akan di-render sebagai tooltip pada UI.
+
+Contoh input `forever` (tanpa date):
+```bash
+npx bansosdev add ... --validity-type forever --validity-desc "Berlaku selamanya"
+```
+
+Mode ini akan mencetak URL issue GitHub dengan payload JSON.
 
 ## Maintainer mode
 

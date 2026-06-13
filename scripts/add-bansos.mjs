@@ -76,6 +76,11 @@ if (validityType === 'fixed') {
 	if (!/^\d{4}-\d{2}-\d{2}$/.test(validity.date)) {
 		throw new Error('validity date must be YYYY-MM-DD');
 	}
+	const [year, month, day] = validity.date.split('-').map(Number);
+	const parsedDate = new Date(year, month - 1, day);
+	if (parsedDate.getFullYear() !== year || parsedDate.getMonth() !== month - 1 || parsedDate.getDate() !== day) {
+		throw new Error('validity date is not a valid calendar date');
+	}
 }
 const validityDesc =
 	mergedArgs['validity-desc'] || (mergedArgs.validity && mergedArgs.validity.description);
@@ -97,8 +102,10 @@ const item = {
 		? mergedArgs.requirements
 		: list(required(mergedArgs, 'requirements')),
 	tips: mergedArgs.tips,
-	contributorName: mergedArgs['contributor-name'] || mergedArgs.contributorName,
-	contributorUrl: mergedArgs['contributor-url'] || mergedArgs.contributorUrl,
+	contributor: (mergedArgs['contributor-name'] || mergedArgs.contributorName) && (mergedArgs['contributor-url'] || mergedArgs.contributorUrl) ? {
+		name: mergedArgs['contributor-name'] || mergedArgs.contributorName,
+		url: mergedArgs['contributor-url'] || mergedArgs.contributorUrl
+	} : undefined,
 	ctaLink: mergedArgs['cta-link'] || required(mergedArgs, 'ctaLink'),
 	tags: Array.isArray(mergedArgs.tags) ? mergedArgs.tags : csv(required(mergedArgs, 'tags')),
 	featured: mergedArgs.featured === true || mergedArgs.featured === 'true',
@@ -110,8 +117,8 @@ if (item.requirements.length === 0)
 	throw new Error('--requirements must contain at least one item');
 if (item.tags.length === 0) throw new Error('--tags must contain at least one item');
 if (
-	(item.contributorName && !item.contributorUrl) ||
-	(!item.contributorName && item.contributorUrl)
+	((mergedArgs['contributor-name'] || mergedArgs.contributorName) && !(mergedArgs['contributor-url'] || mergedArgs.contributorUrl)) ||
+	(!(mergedArgs['contributor-name'] || mergedArgs.contributorName) && (mergedArgs['contributor-url'] || mergedArgs.contributorUrl))
 ) {
 	throw new Error('Use --contributor-name and --contributor-url together');
 }
