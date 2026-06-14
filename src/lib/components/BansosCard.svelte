@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import type { BansosItem } from '$lib/data/bansos';
+	import { getProviderBySlug, slugifyProvider, type BansosItem } from '$lib/data/bansos';
 
 	let { item, compact = false }: { item: BansosItem; compact?: boolean } = $props();
 
 	let showTooltip = $state(false);
+	const providerSlug = $derived(slugifyProvider(item.provider));
+	const provider = $derived(getProviderBySlug(providerSlug));
 
 	function toggleTooltip(e: Event) {
 		e.preventDefault();
@@ -30,7 +32,14 @@
 
 	<h2 class="card-title">{item.title}</h2>
 	<div class="provider-row">
-		<p class="provider-label">Provider: <strong>{item.provider}</strong></p>
+		<p class="provider-label">
+			Provider:
+			{#if provider}
+				<a href={resolve(`/providers/${providerSlug}`)}>{item.provider}</a>
+			{:else}
+				<strong>{item.provider}</strong>
+			{/if}
+		</p>
 		{#if item.status !== 'expired'}
 			{#if item.validity.description}
 				<button
@@ -187,6 +196,11 @@
 
 	.provider-label {
 		margin: 0;
+	}
+
+	.provider-label a {
+		color: var(--color-accent);
+		font-weight: 800;
 	}
 
 	.validity-text {

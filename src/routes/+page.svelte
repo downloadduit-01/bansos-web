@@ -2,7 +2,12 @@
 	import { onMount } from 'svelte';
 	import { resolve } from '$app/paths';
 	import BansosHighlights from '$lib/components/BansosHighlights.svelte';
-	import { bansosList, latestBansos, featuredBansos } from '$lib/data/bansos';
+	import {
+		bansosList,
+		latestBansos,
+		featuredBansos,
+		getCommitContributorStats
+	} from '$lib/data/bansos';
 
 	type GithubContributor = {
 		login: string;
@@ -25,6 +30,7 @@
 	const activeBansos = bansosList.filter((item) => item.status === 'active').length;
 	const upcomingBansos = bansosList.filter((item) => item.status === 'upcoming').length;
 	const expiredBansos = bansosList.filter((item) => item.status === 'expired').length;
+	const commitContributors = getCommitContributorStats().slice(0, 8);
 	let githubStars: number | string = $state('-');
 	let githubPrs: number | string = $state('-');
 	let githubContributors: GithubContributor[] = $state([]);
@@ -123,6 +129,9 @@
 
 		<h1 class="main-title text-gradient text-balance">bansos Developer</h1>
 		<p class="tagline text-gradient">"Bantuan sosial untuk developer jelata"</p>
+		<p class="community-tagline text-pretty">
+			Gotong Royong dalam bantuin developer jelata lainnya untuk glow up pada projectnya
+		</p>
 
 		<!-- Anxious Sweating Computer SVG -->
 		<div class="anxious-container">
@@ -242,24 +251,21 @@
 				sesama developer jelata bertahan hidup.
 			</p>
 			<div class="repo-live-panel" aria-label="Statistik repository GitHub bansos.dev">
-				<div class="contributors-stack" aria-label="Kontributor repository">
-					{#if githubContributors.length > 0}
-						{#each githubContributors as contributor (contributor.login)}
+				<div class="commit-contributor-panel">
+					<span class="repo-panel-label">Commit kontributor</span>
+					<div class="contributors-stack" aria-label="Commit kontributor bansos data">
+						{#each commitContributors as contributor (contributor.login)}
 							<a
-								href={contributor.html_url}
+								href={`https://github.com/${contributor.login}`}
 								target="_blank"
 								rel="noopener noreferrer"
 								class="contributor-avatar"
-								aria-label={`${contributor.login}, ${contributor.contributions} kontribusi`}
+								aria-label={`${contributor.login}, ${contributor.count} commit kontribusi`}
 							>
-								<img src={contributor.avatar_url} alt={contributor.login} loading="lazy" />
+								<img src={contributor.avatarUrl} alt={contributor.login} loading="lazy" />
 							</a>
 						{/each}
-					{:else}
-						<span class="avatar-skeleton"></span>
-						<span class="avatar-skeleton"></span>
-						<span class="avatar-skeleton"></span>
-					{/if}
+					</div>
 				</div>
 				<div class="repo-live-stats">
 					<a href={repoUrl} target="_blank" rel="noopener noreferrer" class="repo-stat">
@@ -378,6 +384,15 @@
 		letter-spacing: -0.01em;
 		margin: 0;
 		opacity: 0.95;
+	}
+
+	.community-tagline {
+		max-width: 36rem;
+		color: var(--text-secondary);
+		font-size: clamp(0.95rem, 0.9rem + 0.25vw, 1.1rem);
+		font-weight: 650;
+		line-height: 1.6;
+		margin: -0.5rem 0 0;
 	}
 
 	.intro-text {
@@ -596,14 +611,27 @@
 		gap: 0.85rem;
 	}
 
+	.commit-contributor-panel {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.45rem;
+	}
+
+	.repo-panel-label {
+		color: var(--text-muted);
+		font-size: 0.75rem;
+		font-weight: 850;
+		text-transform: uppercase;
+	}
+
 	.contributors-stack {
 		display: flex;
 		justify-content: center;
 		padding-left: 0.75rem;
 	}
 
-	.contributor-avatar,
-	.avatar-skeleton {
+	.contributor-avatar {
 		width: 2.35rem;
 		height: 2.35rem;
 		margin-left: -0.75rem;
@@ -630,11 +658,6 @@
 		height: 100%;
 		object-fit: cover;
 		display: block;
-	}
-
-	.avatar-skeleton {
-		display: block;
-		animation: pulse-avatar 1.5s ease-in-out infinite;
 	}
 
 	.repo-live-stats {
@@ -665,16 +688,6 @@
 	.repo-stat i,
 	.repo-stat span {
 		color: var(--color-accent);
-	}
-
-	@keyframes pulse-avatar {
-		0%,
-		100% {
-			opacity: 0.45;
-		}
-		50% {
-			opacity: 0.9;
-		}
 	}
 
 	.btn-icon {

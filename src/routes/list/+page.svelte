@@ -43,6 +43,9 @@
 	let selectedValidities: string[] = $state([]);
 	let sortOrder: 'newest' | 'oldest' = $state('newest');
 	let filterExpanded = $state(false);
+	let currentPage = $state(1);
+	let searchQuery = $state('');
+	const pageSize = 6;
 
 	const dynamicTags = $derived(
 		Array.from(new Set(bansosState.data.flatMap((item) => item.tags))).sort((a, b) =>
@@ -54,16 +57,52 @@
 		bansosState.data
 			.map((item, index) => ({ item, index }))
 			.filter(({ item }) => {
+				const query = searchQuery.trim().toLowerCase();
+				const searchable = [
+					item.title,
+					item.provider,
+					item.description,
+					item.promoCode || '',
+					item.validity.description || '',
+					item.contributor?.name || '',
+					item.tags.join(' '),
+					item.benefits.join(' '),
+					item.requirements.join(' ')
+				]
+					.join(' ')
+					.toLowerCase();
+				const searchMatch = !query || searchable.includes(query);
 				const tagMatch =
 					selectedTags.length === 0 || item.tags.some((tag) => selectedTags.includes(tag));
 				const statusMatch = selectedStatuses.length === 0 || selectedStatuses.includes(item.status);
 				const validityMatch =
 					selectedValidities.length === 0 || selectedValidities.includes(item.validity.type);
-				return tagMatch && statusMatch && validityMatch;
+				return searchMatch && tagMatch && statusMatch && validityMatch;
 			})
 			.sort((a, b) => (sortOrder === 'newest' ? b.index - a.index : a.index - b.index))
 			.map(({ item }) => item)
 	);
+	const totalPages = $derived(Math.max(1, Math.ceil(filteredBansos.length / pageSize)));
+	const paginatedBansos = $derived(
+		filteredBansos.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+	);
+	const pageStart = $derived(filteredBansos.length === 0 ? 0 : (currentPage - 1) * pageSize + 1);
+	const pageEnd = $derived(Math.min(currentPage * pageSize, filteredBansos.length));
+
+	$effect(() => {
+		selectedTags;
+		selectedStatuses;
+		selectedValidities;
+		sortOrder;
+		searchQuery;
+		currentPage = 1;
+	});
+
+	$effect(() => {
+		if (currentPage > totalPages) {
+			currentPage = totalPages;
+		}
+	});
 
 	const totalSeconds = $derived(Math.ceil(remainingTime / 1000));
 	const timerM = $derived(Math.floor(totalSeconds / 60));
@@ -166,6 +205,22 @@
 			Klik kartu bansos untuk melihat langkah-langkah detail dan cara klaim kodenya, fr fr! 🚀
 		</p>
 	</header>
+
+	<section class="search-section container" aria-label="Pencarian bansos">
+		<label class="search-box">
+			<i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+			<input
+				type="search"
+				bind:value={searchQuery}
+				placeholder="Cari nama, provider, benefit, tag, kontributor..."
+			/>
+			{#if searchQuery}
+				<button type="button" aria-label="Bersihkan pencarian" onclick={() => (searchQuery = '')}>
+					<i class="fa-solid fa-xmark"></i>
+				</button>
+			{/if}
+		</label>
+	</section>
 
 	<section class="filter-section container" aria-label="Filter tag bansos">
 		<div class="filter-card">
@@ -320,17 +375,56 @@
 						selectedStatuses = [];
 						selectedValidities = [];
 						sortOrder = 'newest';
+						searchQuery = '';
+						currentPage = 1;
 					}}
 				>
 					Reset Filter
 				</button>
 			</div>
 		{:else}
+			<div class="result-summary">
+				<span>Menampilkan {pageStart}-{pageEnd} dari {filteredBansos.length} bansos</span>
+				<span>Halaman {currentPage} dari {totalPages}</span>
+			</div>
 			<div class="bansos-grid">
-				{#each filteredBansos as item (item.id)}
+				{#each paginatedBansos as item (item.id)}
 					<BansosCard {item} />
 				{/each}
 			</div>
+			{#if totalPages > 1}
+				<nav class="pagination" aria-label="Pagination daftar bansos">
+					<button
+						type="button"
+						class="page-btn"
+						aria-label="Halaman sebelumnya"
+						disabled={currentPage === 1}
+						onclick={() => (currentPage = Math.max(1, currentPage - 1))}
+					>
+						<i class="fa-solid fa-chevron-left"></i>
+					</button>
+					{#each Array(totalPages) as _, index (index)}
+						<button
+							type="button"
+							class="page-btn"
+							class:active={currentPage === index + 1}
+							aria-current={currentPage === index + 1 ? 'page' : undefined}
+							onclick={() => (currentPage = index + 1)}
+						>
+							{index + 1}
+						</button>
+					{/each}
+					<button
+						type="button"
+						class="page-btn"
+						aria-label="Halaman berikutnya"
+						disabled={currentPage === totalPages}
+						onclick={() => (currentPage = Math.min(totalPages, currentPage + 1))}
+					>
+						<i class="fa-solid fa-chevron-right"></i>
+					</button>
+				</nav>
+			{/if}
 		{/if}
 	</section>
 </main>
@@ -380,6 +474,45 @@
 
 	.filter-section {
 		margin-bottom: -1.5rem;
+	}
+
+	.search-section {
+		margin-bottom: -2.5rem;
+	}
+
+	.search-box {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		border: 1px solid var(--glass-border);
+		border-radius: 1rem;
+		background: linear-gradient(var(--glass-bg), var(--glass-bg)) var(--bg-primary);
+		padding: 0.85rem 1rem;
+		color: var(--text-secondary);
+	}
+
+	.search-box:focus-within {
+		border-color: color-mix(in srgb, var(--color-accent) 55%, var(--border-color));
+		box-shadow: 0 0 0 3px var(--color-accent-glow);
+	}
+
+	.search-box input {
+		width: 100%;
+		border: 0;
+		outline: 0;
+		background: transparent;
+		color: var(--text-primary);
+		font: inherit;
+		font-weight: 650;
+		min-width: 0;
+	}
+
+	.search-box button {
+		border: 0;
+		background: transparent;
+		color: var(--text-secondary);
+		cursor: pointer;
+		font: inherit;
 	}
 
 	.filter-card {
@@ -502,6 +635,54 @@
 
 	.feed-section {
 		min-height: 40vh;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.result-summary {
+		display: flex;
+		justify-content: space-between;
+		gap: 0.75rem;
+		color: var(--text-secondary);
+		font-size: 0.85rem;
+		font-weight: 750;
+	}
+
+	.pagination {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.5rem;
+		padding-top: 0.75rem;
+	}
+
+	.page-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 2.4rem;
+		height: 2.4rem;
+		border: 1px solid var(--border-color);
+		border-radius: 0.65rem;
+		background: color-mix(in srgb, var(--text-primary) 4%, transparent);
+		color: var(--text-secondary);
+		font: inherit;
+		font-size: 0.9rem;
+		font-weight: 800;
+		cursor: pointer;
+	}
+
+	.page-btn:hover:not(:disabled),
+	.page-btn.active {
+		border-color: color-mix(in srgb, var(--color-accent) 55%, var(--border-color));
+		background: var(--color-accent-glow);
+		color: var(--color-accent);
+	}
+
+	.page-btn:disabled {
+		cursor: not-allowed;
+		opacity: 0.45;
 	}
 
 	.empty-state {
@@ -628,8 +809,16 @@
 
 	@media (max-width: 64rem) {
 		.page-wrapper {
-			padding-block: 1.5rem 2.5rem;
-			gap: 2rem;
+			padding-block: 0.75rem 2.5rem;
+			gap: 1.5rem;
+		}
+
+		.filter-section {
+			margin-bottom: -0.75rem;
+		}
+
+		.search-section {
+			margin-bottom: -1rem;
 		}
 	}
 

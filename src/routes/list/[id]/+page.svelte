@@ -2,13 +2,23 @@
 	import { resolve } from '$app/paths';
 	import FloatingEmoji from '$lib/components/FloatingEmoji.svelte';
 	import BansosCard from '$lib/components/BansosCard.svelte';
-	import { recommendedBansosFor } from '$lib/data/bansos';
+	import {
+		getCommitContributorsForItem,
+		getItemSource,
+		getProviderBySlug,
+		recommendedBansosFor,
+		slugifyProvider
+	} from '$lib/data/bansos';
 	import { bansosState, initBansosStore, fetchLatestBansos } from '$lib/stores/bansos.svelte';
 	import { onMount } from 'svelte';
 
 	let { data } = $props();
 
 	const item = $derived(bansosState.data.find((i) => i.id === data.id) || data.item);
+	const provider = $derived(item ? getProviderBySlug(slugifyProvider(item.provider)) : null);
+	const source = $derived(item ? getItemSource(item) : '');
+	const sourceIsUrl = $derived(/^https?:\/\//.test(source));
+	const commitContributors = $derived(item ? getCommitContributorsForItem(item.id) : []);
 
 	onMount(() => {
 		initBansosStore();
@@ -177,7 +187,11 @@
 		<!-- Top Navigation -->
 		<nav class="top-nav container">
 			<a href={resolve('/list')} class="btn-back">
-				<span class="arrow">←</span> Kembali ke List Bansos
+				<span class="back-icon" aria-hidden="true"><i class="fa-solid fa-arrow-left"></i></span>
+				<span>
+					<small>Kembali</small>
+					<strong>List Bansos</strong>
+				</span>
 			</a>
 		</nav>
 
@@ -198,9 +212,22 @@
 						</div>
 					</div>
 					<h1 class="detail-title text-gradient text-pretty">{item.title}</h1>
-					<p class="detail-subtitle">
-						Disponsori oleh <strong>{item.provider}</strong> — Diterbitkan pada Juni 2026
-					</p>
+					<div class="provider-meta">
+						{#if provider?.faviconUrl}
+							<img src={provider.faviconUrl} alt="" loading="lazy" class="provider-logo" />
+						{/if}
+						<p class="detail-subtitle">
+							Disponsori oleh
+							{#if provider}
+								<a href={resolve(`/providers/${slugifyProvider(item.provider)}`)}>{item.provider}</a
+								>
+							{:else}
+								<strong>{item.provider}</strong>
+							{/if}
+							<span aria-hidden="true">·</span>
+							<span>Diterbitkan pada Juni 2026</span>
+						</p>
+					</div>
 					{#if item.contributor}
 						<p class="detail-contributor">
 							Dikontribusikan oleh
@@ -209,6 +236,37 @@
 							</a>
 						</p>
 					{/if}
+					<div class="detail-meta-grid">
+						<div class="meta-card">
+							<span class="meta-label"><i class="fa-solid fa-link"></i> Sumber</span>
+							{#if sourceIsUrl}
+								<a href={source} target="_blank" rel="noopener noreferrer">{source}</a>
+							{:else}
+								<strong>{source}</strong>
+							{/if}
+						</div>
+						{#if commitContributors.length > 0}
+							<div class="meta-card">
+								<span class="meta-label"
+									><i class="fa-solid fa-code-commit"></i> Commit kontributor</span
+								>
+								<div class="commit-list">
+									{#each commitContributors as contributor (contributor.login)}
+										<a
+											href={contributor.commitUrl}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="commit-person"
+											title={`Commit oleh ${contributor.login}`}
+										>
+											<img src={contributor.avatarUrl} alt={contributor.login} loading="lazy" />
+											<span>@{contributor.login}</span>
+										</a>
+									{/each}
+								</div>
+							</div>
+						{/if}
+					</div>
 				</header>
 
 				{#if item.status === 'expired'}
@@ -328,10 +386,10 @@
 <style>
 	.page-wrapper {
 		position: relative;
-		padding-block: 2.5rem;
+		padding-block: 1.25rem 2.5rem;
 		display: flex;
 		flex-direction: column;
-		gap: 3.5rem;
+		gap: 1.25rem;
 		z-index: 1;
 	}
 
@@ -349,21 +407,57 @@
 	.btn-back {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.5rem;
-		font-weight: 600;
+		gap: 0.7rem;
+		font-weight: 750;
 		color: var(--text-secondary);
 		border: 1px solid var(--border-color);
-		padding: 0.5rem 1rem;
-		border-radius: 0.5rem;
-		background: var(--glass-bg);
+		padding: 0.45rem 0.8rem 0.45rem 0.45rem;
+		border-radius: 999px;
+		background:
+			linear-gradient(135deg, var(--color-accent-glow), transparent 80%),
+			color-mix(in srgb, var(--text-primary) 4%, transparent);
+		box-shadow: 0 12px 30px color-mix(in srgb, var(--glass-shadow) 65%, transparent);
 		transition:
 			background-color 0.2s,
-			color 0.2s;
+			border-color 0.2s,
+			color 0.2s,
+			transform 0.2s;
 	}
 
 	.btn-back:hover {
 		color: var(--text-primary);
-		background-color: rgba(255, 255, 255, 0.05);
+		border-color: color-mix(in srgb, var(--color-accent) 45%, var(--border-color));
+		transform: translateY(-1px);
+	}
+
+	.back-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		height: 2rem;
+		border-radius: 999px;
+		background: var(--color-accent-glow);
+		color: var(--color-accent);
+	}
+
+	.btn-back span:last-child {
+		display: flex;
+		flex-direction: column;
+		gap: 0.05rem;
+		line-height: 1.05;
+	}
+
+	.btn-back small {
+		color: var(--text-muted);
+		font-size: 0.68rem;
+		font-weight: 800;
+		text-transform: uppercase;
+	}
+
+	.btn-back strong {
+		color: var(--text-primary);
+		font-size: 0.88rem;
 	}
 
 	.detail-container {
@@ -453,8 +547,34 @@
 	}
 
 	.detail-subtitle {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.35rem;
 		font-size: 0.95rem;
 		color: var(--text-secondary);
+	}
+
+	.detail-subtitle a {
+		color: var(--color-accent);
+		font-weight: 800;
+	}
+
+	.provider-meta {
+		display: flex;
+		align-items: center;
+		gap: 0.65rem;
+	}
+
+	.provider-logo {
+		width: 2rem;
+		height: 2rem;
+		border: 1px solid var(--border-color);
+		border-radius: 0.6rem;
+		background: var(--bg-secondary);
+		object-fit: contain;
+		padding: 0.3rem;
+		flex-shrink: 0;
 	}
 
 	.detail-contributor {
@@ -465,6 +585,64 @@
 	.detail-contributor a {
 		color: var(--color-accent);
 		font-weight: 700;
+	}
+
+	.detail-meta-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.75rem;
+		margin-top: 0.5rem;
+	}
+
+	.meta-card {
+		display: flex;
+		flex-direction: column;
+		gap: 0.45rem;
+		min-width: 0;
+		border: 1px solid var(--border-color);
+		border-radius: 0.75rem;
+		background: color-mix(in srgb, var(--text-primary) 4%, transparent);
+		padding: 0.8rem;
+	}
+
+	.meta-label {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		color: var(--text-muted);
+		font-size: 0.75rem;
+		font-weight: 850;
+		text-transform: uppercase;
+	}
+
+	.meta-card a,
+	.meta-card strong {
+		color: var(--text-primary);
+		font-size: 0.86rem;
+		font-weight: 750;
+		overflow-wrap: anywhere;
+	}
+
+	.commit-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.55rem;
+	}
+
+	.commit-person {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		border: 1px solid var(--border-color);
+		border-radius: 999px;
+		background: var(--bg-secondary);
+		padding: 0.25rem 0.55rem 0.25rem 0.25rem;
+	}
+
+	.commit-person img {
+		width: 1.5rem;
+		height: 1.5rem;
+		border-radius: 999px;
 	}
 
 	.section-block {
