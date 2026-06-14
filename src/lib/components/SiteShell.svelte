@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import GithubBadge from './GithubBadge.svelte';
 	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
 	let { children } = $props();
+	type ThemeMode = 'dark' | 'light';
+
+	const THEME_KEY = 'bansos-theme';
+	let theme: ThemeMode = $state('dark');
 
 	const navItems = [
 		{ href: '/', label: 'Beranda', icon: 'fa-solid fa-house' },
@@ -14,16 +18,32 @@
 	function isActivePath(pathname: string, href: string) {
 		return pathname === href || (href !== '/' && pathname.startsWith(`${href}/`));
 	}
+
+	$effect(() => {
+		document.documentElement.dataset.theme = theme;
+	});
+
+	onMount(() => {
+		const storedTheme = localStorage.getItem(THEME_KEY);
+		const systemTheme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+		const initialTheme = storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : systemTheme;
+		theme = initialTheme;
+	});
+
+	function toggleTheme() {
+		theme = theme === 'light' ? 'dark' : 'light';
+		localStorage.setItem(THEME_KEY, theme);
+	}
 </script>
 
 <svelte:head>
-	<meta name="theme-color" content="#090a0f" />
+	<meta name="theme-color" content={theme === 'light' ? '#f8fafc' : '#090a0f'} />
 </svelte:head>
 
 <div class="site-shell">
 	<header class="site-header">
 		<nav class="container nav-shell" aria-label="Navigasi utama">
-			<a href={resolve('/')} class="brand-mark">bansos.dev</a>
+			<a href={resolve('/')} class="brand-mark">Bansos Developer</a>
 			<div class="desktop-nav">
 				{#each navItems as item (item.href)}
 					<a
@@ -32,7 +52,15 @@
 					>
 				{/each}
 			</div>
-			<GithubBadge />
+			<button
+				type="button"
+				class="theme-toggle"
+				onclick={toggleTheme}
+				aria-label={theme === 'light' ? 'Aktifkan mode gelap' : 'Aktifkan mode terang'}
+			>
+				<i class={theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun'} aria-hidden="true"
+				></i>
+			</button>
 		</nav>
 	</header>
 
@@ -78,7 +106,7 @@
 		padding-top: 1px;
 		z-index: 50;
 		border-bottom: 1px solid var(--border-color);
-		background: rgba(9, 10, 15, 0.82);
+		background: color-mix(in srgb, var(--bg-primary) 86%, transparent);
 		backdrop-filter: blur(18px);
 	}
 
@@ -114,12 +142,35 @@
 
 	.desktop-nav a:hover {
 		color: var(--text-primary);
-		background: rgba(255, 255, 255, 0.05);
+		background: color-mix(in srgb, var(--text-primary) 5%, transparent);
 	}
 
 	.desktop-nav a.active {
 		color: var(--color-accent);
 		background: rgba(16, 185, 129, 0.1);
+	}
+
+	.theme-toggle {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		border: 1px solid var(--border-color);
+		border-radius: 0.75rem;
+		background: color-mix(in srgb, var(--text-primary) 4%, transparent);
+		color: var(--text-secondary);
+		cursor: pointer;
+		transition:
+			background-color 0.2s,
+			color 0.2s,
+			border-color 0.2s;
+	}
+
+	.theme-toggle:hover {
+		color: var(--text-primary);
+		background: color-mix(in srgb, var(--text-primary) 8%, transparent);
+		border-color: var(--text-secondary);
 	}
 
 	.site-footer {
@@ -162,7 +213,7 @@
 		padding: 0.35rem;
 		border: 1px solid var(--border-color);
 		border-radius: 1rem;
-		background: rgba(9, 10, 15, 0.9);
+		background: color-mix(in srgb, var(--bg-primary) 92%, transparent);
 		backdrop-filter: blur(18px);
 		box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
 	}
