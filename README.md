@@ -5,7 +5,7 @@
 [![npm bansosdev](https://img.shields.io/npm/v/bansosdev?label=bansosdev&color=10b981)](https://www.npmjs.com/package/bansosdev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-10b981.svg)](LICENSE)
 [![Built with SvelteKit](https://img.shields.io/badge/Built%20with-SvelteKit-ff3e00)](https://kit.svelte.dev/)
-[![Deploy: Cloudflare Pages](https://img.shields.io/badge/Deploy-Cloudflare%20Pages-f38020)](https://pages.cloudflare.com/)
+[![Deploy: GitHub Pages](https://img.shields.io/badge/Deploy-GitHub%20Pages-181717)](https://pages.github.com/)
 
 `Bantuan sosial untuk developer jelata`
 
@@ -34,9 +34,17 @@ Situs ini dibangun sebagai static SvelteKit site yang SEO-friendly, data-driven,
 - [SvelteKit](https://kit.svelte.dev/) static site
 - [TypeScript](https://www.typescriptlang.org/)
 - [Vite](https://vite.dev/)
-- [Cloudflare Pages](https://pages.cloudflare.com/)
+- [GitHub Pages](https://pages.github.com/)
 - GitHub Actions untuk CI dan workflow kontribusi data
 - `bansosdev` CLI untuk submit listing baru
+
+## Deploy dan domain
+
+Deploy produksi berjalan lewat GitHub Pages dari workflow `.github/workflows/deploy-pages.yml`.
+Repository ini tidak membutuhkan token Cloudflare untuk deploy.
+
+Jika memakai Cloudflare sebagai DNS untuk custom domain, arahkan DNS ke GitHub Pages dan gunakan mode DNS only sampai verifikasi domain dan sertifikat HTTPS GitHub Pages aktif.
+Jangan menyimpan `CLOUDFLARE_API_TOKEN` atau `CLOUDFLARE_ACCOUNT_ID` di GitHub Actions secrets untuk deploy situs ini.
 
 ## Menjalankan proyek
 
@@ -137,7 +145,7 @@ Jika punya token maintainer, gunakan mode direct:
 BANSOSDEV_GITHUB_TOKEN=ghp_xxx npx bansosdev add ... --mode direct
 ```
 
-Token perlu punya akses repository yang cukup untuk membuat perubahan data dan memicu workflow.
+Token perlu punya akses repository yang cukup untuk memicu workflow. Mode ini membuat Pull Request otomatis; merge ke `main` akan memicu deploy GitHub Pages.
 
 Detail lengkap CLI lihat [docs/bansosdev-cli.md](docs/bansosdev-cli.md).
 
