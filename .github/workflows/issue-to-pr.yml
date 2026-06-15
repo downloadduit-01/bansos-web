@@ -15,6 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -35,6 +37,9 @@ jobs:
       - name: Generate commit contributors
         run: npm run generate:commit-contributors
 
+      - name: Fix formatting
+        run: npm run format
+
       - name: Build site
         run: npm run build
 
@@ -52,9 +57,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -c "$branch"
-          git add src/lib/data/bansos.json src/lib/data/commit-contributors.json
-          git commit -m "feat: add ${ITEM_TITLE}"
-          git push --force origin "$branch"
+          git add -A
+
+          git diff --staged --quiet && echo "Nothing to commit" || {
+            git commit -m "feat: add ${ITEM_TITLE}"
+            git push --force origin "$branch"
+          }
 
           existing_pr="$(gh pr list --head "$branch" --json url --jq '.[0].url')"
           if [ -n "$existing_pr" ]; then
@@ -77,9 +85,17 @@ jobs:
               --title "Tambah bansos: ${ITEM_TITLE}" \
               --body "$PR_BODY" \
               --base main \
-              --head "$branch"
+              --head "$branch" \
+              --auto
           )"
           echo "url=$pr_url" >> "$GITHUB_OUTPUT"
+
+      - name: Auto-approve PR
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.BANSOS_PAT }}
+          PR_URL: ${{ steps.pr.outputs.url }}
+        run: gh pr review "$PR_URL" --approve
 
       - name: Comment on issue
         env:
