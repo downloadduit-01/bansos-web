@@ -691,5 +691,27 @@
 		"tags": ["AI", "API", "Cloud", "Gratisan", "Developer"],
 		"featured": false,
 		"status": "active"
+	},
+	{
+		"id": "google-ai-pro-4-bulan",
+		"title": "Google AI Pro Gratis 4 Bulan",
+		"provider": "Google",
+		"description": "Dapatkan akses gratis Google AI Pro selama 4 bulan dengan berbagai keuntungan eksklusif via referral (kuota referral bisa terbatas, cek di source).",
+		"benefits": ["Antigravity", "Gemini Pro", "Penyimpanan 5TB Google Drive/Gmail"],
+		"validity": {
+			"type": "uncertain",
+			"description": "Berlaku selama promosi berlangsung"
+		},
+		"requirements": ["Buat akun", "Klaim program melalui link"],
+		"publishedAt": "2026-06-16",
+		"contributor": {
+			"name": "Akbar",
+			"url": "https://www.threads.com/@akbrzz"
+		},
+		"source": "https://www.threads.com/@akbrzz/post/DZpViYIFP0M",
+		"ctaLink": "http://g.co/g1referral/JG620Z3F",
+		"tags": ["AI", "Cloud", "Gratisan", "Google"],
+		"featured": false,
+		"status": "active"
 	}
 ]
