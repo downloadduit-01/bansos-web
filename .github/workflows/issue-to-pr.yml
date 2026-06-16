@@ -9,9 +9,6 @@ permissions:
   issues: write
   pull-requests: write
 
-env:
-  GITHUB_ACTION_TOKEN: ${{ secrets.BANSOS_PAT || github.token }}
-
 jobs:
   create-pr:
     if: ${{ contains(github.event.issue.labels.*.name, 'submission') || startsWith(github.event.issue.title, 'Tambah bansos:') }}
@@ -20,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          persist-credentials: true
+          persist-credentials: false
 
       - uses: actions/setup-node@v4
         with:
@@ -48,13 +45,15 @@ jobs:
         run: npm run build
 
       - name: Setup git auth
+        env:
+          AUTH_TOKEN: ${{ secrets.BANSOS_PAT || github.token }}
         run: |
-          git remote set-url origin https://x-access-token:${GITHUB_ACTION_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+          git remote set-url origin https://x-access-token:${AUTH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
 
       - name: Create pull request
         id: pr
         env:
-          GH_TOKEN: ${{ env.GITHUB_ACTION_TOKEN }}
+          GH_TOKEN: ${{ secrets.BANSOS_PAT || github.token }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           ITEM_ID: ${{ steps.payload.outputs.id }}
           ITEM_TITLE: ${{ steps.payload.outputs.title }}
@@ -104,9 +103,23 @@ jobs:
       - name: Auto-approve PR
         continue-on-error: true
         env:
-          GH_TOKEN: ${{ secrets.BANSOS_PAT }}
+          GH_TOKEN: ${{ github.token }}
           PR_URL: ${{ steps.pr.outputs.url }}
-        run: gh pr review "$PR_URL" --approve
+        run: |
+          if [ -z "${PR_URL:-}" ]; then
+            echo "No PR URL, skipping auto-approve."
+            exit 0
+          fi
+
+          PR_AUTHOR="$(gh pr view "$PR_URL" --json author --jq '.author.login')"
+          REVIEWER="$(gh api user -q .login)"
+
+          if [ "$PR_AUTHOR" = "$REVIEWER" ]; then
+            echo "Skip auto-approve: PR author and reviewer are the same user ($REVIEWER)."
+            exit 0
+          fi
+
+          gh pr review "$PR_URL" --approve
 
       - name: Comment on issue
         env:
