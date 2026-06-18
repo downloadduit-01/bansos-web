@@ -161,7 +161,7 @@
 	}
 
 	.status-active {
-		background: rgba(16, 185, 129, 0.1);
+		background: rgba(245, 158, 11, 0.1);
 		color: var(--color-success);
 	}
 

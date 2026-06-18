@@ -2,7 +2,7 @@
   <defs>
     <linearGradient id="neonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#34d399" />
-      <stop offset="100%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#f59e0b" />
     </linearGradient>
   </defs>
   <!-- Rounded card backing -->

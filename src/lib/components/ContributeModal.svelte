@@ -628,8 +628,8 @@
 	}
 
 	.copy-btn.copied {
-		color: #10b981;
-		border-color: #10b981;
+		color: #f59e0b;
+		border-color: #f59e0b;
 	}
 
 	.command-block {

@@ -168,7 +168,7 @@
 
 	.desktop-nav a.active {
 		color: var(--color-accent);
-		background: rgba(16, 185, 129, 0.1);
+		background: rgba(245, 158, 11, 0.1);
 	}
 
 	.nav-actions {
@@ -268,7 +268,7 @@
 
 	.mobile-bottom-nav a:hover,
 	.mobile-bottom-nav a.active {
-		background: rgba(16, 185, 129, 0.1);
+		background: rgba(245, 158, 11, 0.1);
 		color: var(--color-accent);
 	}
 

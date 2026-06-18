@@ -35,7 +35,7 @@
 				x: e.clientX,
 				y: e.clientY,
 				icon: 'fa-solid fa-money-bill-wave',
-				color: '#10b981'
+				color: '#f59e0b'
 			};
 			floatingEmojis = [...floatingEmojis, emoji];
 			setTimeout(() => {

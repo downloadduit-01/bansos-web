@@ -178,7 +178,7 @@
 		gap: 0.65rem;
 		text-align: left;
 		padding: 1.25rem;
-		border: 1px solid rgba(16, 185, 129, 0.32);
+		border: 1px solid rgba(245, 158, 11, 0.32);
 		border-radius: 0.9rem;
 		transition:
 			transform 0.2s,
@@ -187,7 +187,7 @@
 
 	.highlight-card:hover {
 		transform: translateY(-2px);
-		border-color: rgba(16, 185, 129, 0.6);
+		border-color: rgba(245, 158, 11, 0.6);
 	}
 
 	.highlight-header {
@@ -206,7 +206,7 @@
 	.highlight-tag {
 		font-size: 0.65rem;
 		font-weight: 850;
-		background: rgba(16, 185, 129, 0.15);
+		background: rgba(245, 158, 11, 0.15);
 		color: var(--color-accent);
 		padding: 0.25rem 0.45rem;
 		border-radius: 0.35rem;
@@ -238,8 +238,8 @@
 
 	.validity-forever {
 		color: var(--color-success);
-		background: rgba(16, 185, 129, 0.1);
-		border: 1px solid rgba(16, 185, 129, 0.2);
+		background: rgba(245, 158, 11, 0.1);
+		border: 1px solid rgba(245, 158, 11, 0.2);
 	}
 
 	.validity-fixed {
