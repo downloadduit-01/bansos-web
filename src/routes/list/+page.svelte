@@ -379,7 +379,7 @@
 		top: -15rem;
 		left: 50%;
 		transform: translateX(-50%);
-		background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, transparent 60%);
+		background: radial-gradient(circle, rgba(245, 158, 11, 0.05) 0%, transparent 60%);
 	}
 
 	.feed-header {
@@ -558,8 +558,8 @@
 	}
 
 	.tag-btn.active {
-		border-color: rgba(16, 185, 129, 0.55);
-		background: rgba(16, 185, 129, 0.14);
+		border-color: rgba(245, 158, 11, 0.55);
+		background: rgba(245, 158, 11, 0.14);
 		color: var(--color-success);
 	}
 

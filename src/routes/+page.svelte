@@ -306,7 +306,7 @@
 		width: 40rem;
 		height: 40rem;
 		border-radius: 50%;
-		background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+		background: radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, transparent 70%);
 		pointer-events: none;
 		z-index: -1;
 	}
@@ -355,15 +355,15 @@
 		gap: 0.35rem;
 		font-size: 0.75rem;
 		font-weight: 600;
-		background: rgba(16, 185, 129, 0.1);
-		border: 1px solid rgba(16, 185, 129, 0.2);
+		background: rgba(245, 158, 11, 0.1);
+		border: 1px solid rgba(245, 158, 11, 0.2);
 		padding: 0.25rem 0.75rem;
 		border-radius: 2rem;
 		color: var(--color-accent) !important;
 	}
 
 	.github-badge:hover {
-		background: rgba(16, 185, 129, 0.15);
+		background: rgba(245, 158, 11, 0.15);
 	}
 
 	.github-badge .icon {
@@ -442,7 +442,7 @@
 		font-size: 1.25rem;
 		padding: 1rem 2.5rem;
 		border-radius: 1rem;
-		box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
+		box-shadow: 0 10px 25px rgba(245, 158, 11, 0.35);
 		display: inline-flex;
 		align-items: center;
 		gap: 0.5rem;
@@ -574,10 +574,10 @@
 		flex-direction: column;
 		align-items: center;
 		gap: 1.5rem;
-		border-color: rgba(16, 185, 129, 0.2);
+		border-color: rgba(245, 158, 11, 0.2);
 		background: radial-gradient(
 			circle at 50% 50%,
-			rgba(16, 185, 129, 0.04) 0%,
+			rgba(245, 158, 11, 0.04) 0%,
 			var(--glass-bg) 100%
 		);
 	}
@@ -651,7 +651,7 @@
 
 	.contributor-avatar:hover {
 		transform: translateY(-2px);
-		border-color: rgba(16, 185, 129, 0.8);
+		border-color: rgba(245, 158, 11, 0.8);
 	}
 
 	.contributor-avatar img {
