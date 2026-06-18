@@ -20,7 +20,7 @@
 	const repoUrl = `https://github.com/${repo}`;
 
 	// SEO metadata
-	const metaTitle = 'Bansos Developer - Bantuan Sosial untuk Developer Jelata';
+	const metaTitle = 'Bansos Developer InDOAi - Bantuan Sosial untuk Developer Jelata';
 	const metaDescription =
 		'Kumpulan promo gratisan, diskon, dan bantuan sosial (bansos) khusus untuk developer jelata di Indonesia. Domain gratis, cloud gratis, no credit card! fr fr 🚀';
 	const siteUrl = 'https://bansos.dev';
@@ -127,7 +127,7 @@
 			</a>
 		</div>
 
-		<h1 class="main-title text-gradient text-balance">Bansos Developer</h1>
+		<h1 class="main-title text-gradient text-balance">Bansos Developer InDOAi</h1>
 		<p class="tagline text-gradient">"Bantuan sosial untuk developer jelata"</p>
 		<p class="community-tagline text-pretty">
 			Gotong Royong dalam bantuin developer jelata lainnya untuk glow up pada projectnya

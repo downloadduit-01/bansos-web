@@ -37,7 +37,7 @@
 </script>
 
 <svelte:head>
-	<title>Daftar Provider Bansos Developer - bansos.dev</title>
+	<title>Daftar Provider Bansos Developer InDOAi - bansos.dev</title>
 	<meta
 		name="description"
 		content="Lihat daftar provider bansos developer seperti cloud credit, domain gratis, hosting trial, AI credits, dan program startup yang bisa diklaim developer Indonesia."

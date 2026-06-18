@@ -49,7 +49,7 @@
 <div class="site-shell">
 	<header class="site-header">
 		<nav class="container nav-shell" aria-label="Navigasi utama">
-			<a href={resolve('/')} class="brand-mark">Bansos Developer</a>
+			<a href={resolve('/')} class="brand-mark">Bansos Developer InDOAi</a>
 			<div class="desktop-nav">
 				{#each navItems as item (item.href)}
 					<a
